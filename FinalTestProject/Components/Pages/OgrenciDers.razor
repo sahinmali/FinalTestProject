@@ -1,0 +1,81 @@
+@inherits LayoutComponentBase
+@page "/Pages/OgrenciDers"
+@using FinalTestProject.Models.Accounts
+@inject DatabaseHandler DatabaseHandler;
+
+<div class="ogrenci-layout">
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <span class="navbar-brand">OgrenciPage</span>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav">
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="/OgrenciLayout">Home</NavLink>
+                </li>
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="/Pages/OgrenciDers">Dersler</NavLink>
+                </li>
+                <li class="nav-item">
+                    <NavLink class="nav-link" href="/Pages/OgrenciDersSecimi">Ders Secimi</NavLink>
+                </li>
+            </ul>
+        </div>
+    </nav>
+    <!-- Common header or navigation -->
+    <header>
+        <h1>Ders Goruntuleme here!</h1>
+        <!-- Add any other user-specific header content here -->
+    </header>
+
+</div>
+
+<h3>Ogrenci List</h3>
+
+@if (ogrenciler == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Ad</th>
+                <th>TCKimlikNo</th>
+                <th>UyelikType</th>
+                <th>OgrDanisman</th>
+                <th>Sinif</th>
+                <th>Donem</th>
+                <th>SecilmisDersler</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var ogrenci in ogrenciler)
+            {
+                <tr>
+                    <td>@ogrenci.Ad</td>
+                    <td>@ogrenci.TCKimlikNo</td>
+                    <td>@ogrenci.UyelikType</td>
+                    <td>@ogrenci.ogrDanisman</td>
+                    <td>@ogrenci.sinif</td>
+                    <td>@ogrenci.donem</td>
+                    <td>@ogrenci.SecilmisDersler</td>
+                </tr>
+            }
+    using Microsoft.EntityFrameworkCore.Storage;
+        </tbody>
+    </table>
+}
+
+@code {
+    private List<Ogrenci> ogrenciler = [];
+
+    protected override async Task OnInitializedAsync()
+    {
+        ogrenciler = await DatabaseHandler.GetOgrenciListAsync();
+    }
+}

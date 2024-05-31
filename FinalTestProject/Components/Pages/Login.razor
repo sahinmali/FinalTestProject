@@ -1,0 +1,109 @@
+﻿@page "/"
+@inject UserData UserData
+@inject NavigationManager NavigationManager
+@using FinalTestProject.Models.Accounts
+@using static FinalTestProject.Models.Constants;
+@inject DatabaseHandler DatabaseHandler;
+
+<PageTitle>Login</PageTitle>
+
+
+<div class="d-flex justify-content-center">
+    <h1>UBYS Sistemine Hosgeldiniz</h1>
+</div>
+
+<div class="d-flex justify-content-center"> Giris yapiniz </div>
+
+<text> &nbsp; &nbsp; &nbsp;</text>
+
+<div class="d-flex justify-content-center">
+    Kimlik No: <input type="number" inputmode="numeric" pattern="[0-9]*" @bind="userId" />
+</div>
+
+<div style="margin-top: 20px;" class="form-group password-container d-flex justify-content-center">
+    <label for="passwordInput">Password:</label>
+    <input type="password" id="passwordInput" @bind="password" />
+</div>
+
+<div style="margin-top: 20px;" class="d-flex justify-content-center">
+    <button type="button" @onclick="LoginControl">Login</button>
+</div>
+
+<!-- Hata mesajını göstermek için eklenen kısım -->
+@if (!string.IsNullOrEmpty(errorMessage))
+{
+    <div style="color: red; margin-top: 20px;" class="d-flex justify-content-center">
+        @errorMessage
+    </div>
+}
+
+<text> &nbsp; &nbsp; &nbsp;</text>
+
+<div class="d-flex justify-content-center"> Ogrenci icin : 11122233344, 123456 </div>
+<div class="d-flex justify-content-center"> Idareci icin : 33344455566, 1212 </div>
+<div class="d-flex justify-content-center"> OgretimElemani icin : 12345654321, 2323 </div>
+<div class="d-flex justify-content-center"> Danisman icin : 11223344556, 1234 </div>
+
+
+@code {
+
+    private List<Ogrenci> accounts = [];
+    private string userId = "";
+    private string password = "";
+    private string errorMessage = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        accounts = await DatabaseHandler.GetOgrenciListAsync();
+        foreach (var a in accounts)
+        {
+            Console.WriteLine(a.Ad);
+        }
+    }
+    protected void LoginControl()
+    {
+        var credentials = ValidateCredentials(userId, password);
+        errorMessage = "";
+
+        if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(password))
+        {
+            errorMessage = "Kimlik No ve Şifre giriniz.";
+            return;
+        }
+
+        if (credentials.Ad != "")
+        {
+            Console.WriteLine("Entered");
+            if (credentials.UyelikType == UyelikType.Ogrenci)
+            {
+                NavigationManager.NavigateTo("/OgrenciLayout");
+            }
+            else if (credentials.UyelikType == UyelikType.Danisman)
+            {
+                NavigationManager.NavigateTo("/DanismanLayout");
+            }
+            else if (credentials.UyelikType == UyelikType.Idareci)
+            {
+                NavigationManager.NavigateTo("/IdareciLayout");
+            }
+            else if (credentials.UyelikType == UyelikType.OgretimElemani)
+            {
+                NavigationManager.NavigateTo("/OgretimElemaniLayout");
+            }
+        }
+    }
+
+    private Ogrenci ValidateCredentials(string userId, string password)
+    {
+        Ogrenci targetHesap = new();
+        foreach (var acc in accounts)
+        {
+            if (acc.TCKimlikNo.ToString() == userId && acc.Password.ToString() == password)
+            {
+                targetHesap = acc;
+                break;
+            }
+        }
+        return targetHesap;
+    }
+}
