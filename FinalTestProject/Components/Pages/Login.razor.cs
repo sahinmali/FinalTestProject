@@ -1,11 +1,18 @@
 ﻿using FinalTestProject.Data;
+using FinalTestProject.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Components;
 using static FinalTestProject.Models.Constants;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace FinalTestProject.Components.Pages
 {
     public partial class Login
     {
+        //[Inject] private NavigationManager NavigationManager { get; set; }
+        [Inject] private SessionState SessionState { get; set; }
+
         public string UserKimlikNo { get; set; }
         public string Password { get; set; }
         public bool ShowCreate { get; set; }
@@ -55,38 +62,69 @@ namespace FinalTestProject.Components.Pages
                 return;
             }
 
-            if (credentials.Ad != "")
+            if (credentials != null && credentials.Ad != "")
             {
-                if (credentials.UyelikType == UyelikType.Ogrenci)
+                try
                 {
-                    NavigationManager.NavigateTo("/OgrenciLayout");
+                    SessionState.UserTCKimlikNo = credentials.TCKimlikNo.ToString();
+                    SessionState.UserType = credentials.UyelikType.ToString();
+                    SessionState.Ad = credentials.Ad;
                 }
-                else if (credentials.UyelikType == UyelikType.Danisman)
+                catch (Exception ex)
                 {
-                    NavigationManager.NavigateTo("/DanismanLayout");
+                    errorMessage = "Session işlemi sırasında bir hata oluştu: " + ex.Message;
+                    return;
                 }
-                else if (credentials.UyelikType == UyelikType.Idareci)
+
+                string navigateTo = "";
+
+                switch (credentials.UyelikType)
                 {
-                    NavigationManager.NavigateTo("/IdareciLayout");
+                    case UyelikType.Ogrenci:
+                        navigateTo = "/OgrenciLayout";
+                        break;
+                    case UyelikType.Danisman:
+                        navigateTo = "/DanismanLayout";
+                        break;
+                    case UyelikType.Idareci:
+                        navigateTo = "/IdareciLayout";
+                        break;
+                    case UyelikType.OgretimElemani:
+                        navigateTo = "/OgretimElemaniLayout";
+                        break;
                 }
-                else if (credentials.UyelikType == UyelikType.OgretimElemani)
+
+                if (!string.IsNullOrEmpty(navigateTo))
                 {
-                    NavigationManager.NavigateTo("/OgretimElemaniLayout");
+                    try
+                    {
+                        NavigationManager.NavigateTo(navigateTo);
+                    }
+                    catch (Exception ex)
+                    {
+                        errorMessage = "Navigation işlemi sırasında bir hata oluştu: " + ex.Message;
+                    }
                 }
+            }
+            else
+            {
+                errorMessage = "Girilen bilgiler geçersiz.";
             }
         }
 
         private Hesap ValidateCredentials(string userId, string password)
         {
-            Hesap targetHesap = new();
+            Hesap targetHesap = null;
+
             foreach (var acc in HesapList)
             {
-                if (acc.TCKimlikNo.ToString() == userId && acc.Password.ToString() == password)
+                if (acc.TCKimlikNo.ToString() == userId && acc.Password == password)
                 {
                     targetHesap = acc;
                     break;
                 }
             }
+
             return targetHesap;
         }
     }

@@ -11,31 +11,51 @@ builder.Services.AddDbContextFactory<UbysSystemDbContext>(options => options.Use
 builder.Services.AddScoped<DatabaseHandler>();
 builder.Services.AddSingleton<UserData>();
 
-builder.Services.AddRazorComponents()
-	.AddInteractiveServerComponents()
-	.AddInteractiveWebAssemblyComponents();
-var app = builder.Build();
+// HttpContextAccessor servisini ekleyin
+builder.Services.AddHttpContextAccessor();
 
+// Register Session State service
+builder.Services.AddScoped<FinalTestProject.Services.SessionState>();
+
+// Session servisini ekleyin
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromSeconds(10);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
+
+builder.Services.AddRazorComponents()
+    .AddInteractiveServerComponents()
+    .AddInteractiveWebAssemblyComponents();
+
+var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-	app.UseWebAssemblyDebugging();
+    app.UseWebAssemblyDebugging();
 }
 else
 {
-	app.UseExceptionHandler("/Error", createScopeForErrors: true);
-	// The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-	app.UseHsts();
+    app.UseExceptionHandler("/Error", createScopeForErrors: true);
+
+    // Add HSTS middleware for production scenarios
+    app.UseHsts();
 }
 
+// Add HTTPS Redirection Middleware
 app.UseHttpsRedirection();
+
 app.UseStaticFiles();
 app.UseAntiforgery();
 
+// Session'ý kullanýlabilir hale getirin
+app.UseSession();
+
 app.MapRazorComponents<App>()
-	.AddInteractiveServerRenderMode()
-	.AddInteractiveWebAssemblyRenderMode()
-	.AddAdditionalAssemblies(typeof(FinalTestProject.Client._Imports).Assembly);
+    .AddInteractiveServerRenderMode()
+    .AddInteractiveWebAssemblyRenderMode()
+    .AddAdditionalAssemblies(typeof(FinalTestProject.Client._Imports).Assembly);
 
 app.Run();

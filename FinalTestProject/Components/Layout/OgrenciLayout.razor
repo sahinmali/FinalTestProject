@@ -1,6 +1,8 @@
 @inherits LayoutComponentBase
 @page "/OgrenciLayout"
 
+@inject FinalTestProject.Services.SessionState SessionState
+
 <div class="ogrenci-layout">
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -25,7 +27,9 @@
     </nav>
     <!-- Common header or navigation -->
     <header>
-        <h1>Welcome, Ogrenci!</h1>
+        <h1>Welcome, @SessionState.Ad!</h1>
+        <p>Your UserType: @SessionState.UserType</p>
+        <p>User ID: @SessionState.UserTCKimlikNo</p>
         <!-- Add any other user-specific header content here -->
     </header>
 

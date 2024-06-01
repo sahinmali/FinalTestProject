@@ -1,19 +1,12 @@
-﻿@page "/Pages/DanismanOgrGor"
-@using FinalTestProject.Data
-@using FinalTestProject.Models.Accounts
-@using static FinalTestProject.Models.Constants.UyelikType
-
-@inject UserData UserData
-
-
-@inherits LayoutComponentBase
+﻿@inherits LayoutComponentBase
+@page "/Pages/DanismanOgrGor"
 
 <div class="danisman-layout">
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <span class="navbar-brand">DanismanPage</span>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -36,31 +29,5 @@
         <h1>Danisman Ogrencilerinizi Buradan Goruntuleyebilirsiniz!</h1>
         <!-- Add any other user-specific header content here -->
     </header>
-
-    <div>
-        <h2>Danisman Ismi'nin Öğrencileri</h2>
-        <table class="table">
-            <thead>
-                <tr>
-                    <th>Öğrenci İsimleri</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach (var danisman in UserData.GetAccountList())
-                {
-                    //if (danisman is Danisman)
-                    //{
-                    //    var danismanNesnesi = (Danisman)danisman;
-                    //    foreach (var ogrenci in danismanNesnesi.TanimliOgrenciler)
-                    //    {
-                    //        <tr>
-                    //            <td>@ogrenci.Ad</td>
-                    //        </tr>
-                    //    }
-                    //}
-                }
-            </tbody>
-        </table>
-    </div>
 
 </div>

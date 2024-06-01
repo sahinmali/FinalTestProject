@@ -1,6 +1,8 @@
 @inherits LayoutComponentBase
 @page "/IdareciLayout"
 
+@inject FinalTestProject.Services.SessionState SessionState
+
 <div class="idareci-layout">
 
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -21,8 +23,11 @@
         </div>
     </nav>
     <!-- Common header or navigation -->
+    <!-- Common header or navigation -->
     <header>
-        <h1>Welcome, Idareci!</h1>
+        <h1>Welcome, @SessionState.Ad!</h1>
+        <p>Your UserType: @SessionState.UserType</p>
+        <p>User ID: @SessionState.UserTCKimlikNo</p>
         <!-- Add any other user-specific header content here -->
     </header>
 
