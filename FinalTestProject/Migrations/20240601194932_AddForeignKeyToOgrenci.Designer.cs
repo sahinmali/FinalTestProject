@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinalTestProject.Migrations
 {
     [DbContext(typeof(UbysSystemDbContext))]
-    partial class UbysSystemDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240601194932_AddForeignKeyToOgrenci")]
+    partial class AddForeignKeyToOgrenci
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.6");
@@ -153,24 +156,13 @@ namespace FinalTestProject.Migrations
                     b.ToTable("Ders");
                 });
 
-            modelBuilder.Entity("FinalTestProject.Models.DersNotu", b =>
+            modelBuilder.Entity("FinalTestProject.Data.Ogrenci", b =>
                 {
-                    b.Property<long?>("OgrenciTCKimlikNo")
-                        .HasColumnType("INTEGER");
-
-                    b.HasIndex("OgrenciTCKimlikNo");
-
-                    b.ToTable("DersNotu");
-                });
-
-            modelBuilder.Entity("FinalTestProject.Models.DersNotu", b =>
-                {
-                    b.HasOne("FinalTestProject.Data.Ogrenci", "Ogrenci")
+                    b.HasOne("FinalTestProject.Data.Danisman", "OgrDanisman")
                         .WithMany()
-                        .HasForeignKey("OgrenciTCKimlikNo");
+                        .HasForeignKey("OgrenciDanismani");
 
-                    b.Navigation("Ogrenci");
-
+                    b.Navigation("OgrDanisman");
                 });
 #pragma warning restore 612, 618
         }
