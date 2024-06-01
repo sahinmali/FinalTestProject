@@ -1,4 +1,5 @@
-﻿using FinalTestProject.Models;
+﻿using System.ComponentModel.DataAnnotations.Schema;
+using FinalTestProject.Models;
 
 namespace FinalTestProject.Data
 {
@@ -9,7 +10,8 @@ namespace FinalTestProject.Data
         public int? Sinif { get; set; }
         public int? Donem { get; set; }
 
-        public DersSecimi dersSecim = new();
+        //[NotMapped]
+        //public DersSecimi dersSecim = new();
 
         // public DersSecimi DersSecimYap(List<Ders> dersler)
         // {

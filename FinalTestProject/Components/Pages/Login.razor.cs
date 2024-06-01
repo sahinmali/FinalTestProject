@@ -3,19 +3,15 @@ using FinalTestProject.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Components;
 using static FinalTestProject.Models.Constants;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace FinalTestProject.Components.Pages
 {
     public partial class Login
     {
-        //[Inject] private NavigationManager NavigationManager { get; set; }
         [Inject] private SessionState SessionState { get; set; }
 
         public string UserKimlikNo { get; set; }
         public string Password { get; set; }
-        public bool ShowCreate { get; set; }
         private UbysSystemDbContext? _context;
         public List<Hesap>? HesapList { get; set; }
         public List<Ogrenci>? OgrenciList { get; set; }
@@ -27,7 +23,6 @@ namespace FinalTestProject.Components.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            ShowCreate = false;
             await GetHesapList();
         }
 
@@ -58,7 +53,7 @@ namespace FinalTestProject.Components.Pages
 
             if (string.IsNullOrEmpty(UserKimlikNo) || string.IsNullOrEmpty(Password))
             {
-                errorMessage = "Kimlik No ve Şifre giriniz.";
+                errorMessage = "Kimlik No ve Sifre giriniz.";
                 return;
             }
 
@@ -72,7 +67,7 @@ namespace FinalTestProject.Components.Pages
                 }
                 catch (Exception ex)
                 {
-                    errorMessage = "Session işlemi sırasında bir hata oluştu: " + ex.Message;
+                    errorMessage = "Session islemi sirasinda bir hata olustu: " + ex.Message;
                     return;
                 }
 
@@ -102,13 +97,13 @@ namespace FinalTestProject.Components.Pages
                     }
                     catch (Exception ex)
                     {
-                        errorMessage = "Navigation işlemi sırasında bir hata oluştu: " + ex.Message;
+                        errorMessage = "Navigation islemi sirasinda bir hata olustu: " + ex.Message;
                     }
                 }
             }
             else
             {
-                errorMessage = "Girilen bilgiler geçersiz.";
+                errorMessage = "Girilen bilgiler gecersiz.";
             }
         }
 

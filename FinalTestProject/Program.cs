@@ -8,7 +8,6 @@ var connectionString = builder.Configuration.GetConnectionString("UbysSystemDB")
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddDbContextFactory<UbysSystemDbContext>(options => options.UseSqlite(connectionString));
-builder.Services.AddScoped<DatabaseHandler>();
 builder.Services.AddSingleton<UserData>();
 
 // HttpContextAccessor servisini ekleyin
@@ -24,6 +23,8 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+builder.Services.AddBlazorBootstrap();
+
 
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents()
@@ -50,7 +51,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseAntiforgery();
 
-// Session'ý kullanýlabilir hale getirin
+// Session'ï¿½ kullanï¿½labilir hale getirin
 app.UseSession();
 
 app.MapRazorComponents<App>()

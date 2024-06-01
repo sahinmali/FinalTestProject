@@ -5,11 +5,6 @@ namespace FinalTestProject.Data
     {
         public List<string>? TanimliOgrenciler { get; set; }
 
-        public List<string> OgrGor()
-        {
-            return TanimliOgrenciler;
-        }
-
         // public void SecimGuncelle(string ogrenciKimlikNo)
         // {
 

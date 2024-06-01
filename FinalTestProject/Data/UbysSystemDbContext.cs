@@ -36,6 +36,10 @@ public class UbysSystemDbContext : DbContext
         modelBuilder.Entity<Idareci>()
             .Property(e => e.OgretimElemaniList)
             .HasConversion(new StringListConverter());
+        modelBuilder.Entity<Ders>()
+        .Property(e => e.OgrenciList)
+        .HasConversion(new StringListConverter());
+        modelBuilder.Entity<DersNotu>().HasNoKey();
         base.OnModelCreating(modelBuilder);
     }
 

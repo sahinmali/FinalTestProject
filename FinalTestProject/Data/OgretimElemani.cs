@@ -6,20 +6,15 @@ namespace FinalTestProject.Data
     {
         public List<string>? SecilmisDersler { get; set; }
 
-        public List<string> derslerimiGor()
+        public int GetTotalSaatCount()
         {
-            return SecilmisDersler;
+            int totalSaatCount = 0;
+            // foreach (var item in SecilmisDersler)
+            // {
+            //     totalSaatCount += item.SaatCount;
+            // }
+            return totalSaatCount;
         }
-
-        // public int GetTotalSaatCount()
-        // {
-        //     int totalSaatCount = 0;
-        //     foreach (var item in SecilmisDersler)
-        //     {
-        //         totalSaatCount += item.SaatCount;
-        //     }
-        //     return totalSaatCount;
-        // }
 
         //bunu tekrar dusun
         public void VizeNotGir(float not, DersNotu ders_not)

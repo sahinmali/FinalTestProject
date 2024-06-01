@@ -1,7 +1,6 @@
 @inherits LayoutComponentBase
 @page "/Pages/OgrenciDers"
 @using FinalTestProject.Models.Accounts
-@inject DatabaseHandler DatabaseHandler;
 
 <div class="ogrenci-layout">
 
@@ -32,41 +31,3 @@
     </header>
 
 </div>
-
-@* <h3>Ogrenci List</h3>
-
-@if (ogrenciler == null)
-{
-<p><em>Loading...</em></p>
-}
-else
-{
-<table class="table">
-<thead>
-<tr>
-<th>Ad</th>
-<th>TCKimlikNo</th>
-<th>UyelikType</th>
-<th>OgrDanisman</th>
-<th>Sinif</th>
-<th>Donem</th>
-<th>SecilmisDersler</th>
-</tr>
-</thead>
-<tbody>
-@foreach (var ogrenci in ogrenciler)
-{
-<tr>
-<td>@ogrenci.Ad</td>
-<td>@ogrenci.TCKimlikNo</td>
-<td>@ogrenci.UyelikType</td>
-<td>@ogrenci.ogrDanisman</td>
-<td>@ogrenci.sinif</td>
-<td>@ogrenci.donem</td>
-<td>@ogrenci.SecilmisDersler</td>
-</tr>
-}
-using Microsoft.EntityFrameworkCore.Storage;
-</tbody>
-</table>
-} *@
