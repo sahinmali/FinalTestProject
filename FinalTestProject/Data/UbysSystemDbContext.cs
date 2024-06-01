@@ -20,7 +20,22 @@ public class UbysSystemDbContext : DbContext
         modelBuilder.Entity<Ogrenci>()
             .Property(e => e.SecilmisDersler)
             .HasConversion(new StringListConverter());
+        modelBuilder.Entity<OgretimElemani>()
+            .Property(e => e.SecilmisDersler)
+            .HasConversion(new StringListConverter());
+        modelBuilder.Entity<Danisman>()
+            .Property(e => e.TanimliOgrenciler)
+            .HasConversion(new StringListConverter());
+        modelBuilder.Entity<Idareci>()
+            .Property(e => e.AcilanDersler)
+            .HasConversion(new StringListConverter());
 
+        modelBuilder.Entity<Idareci>()
+            .Property(e => e.DersListe)
+            .HasConversion(new StringListConverter());
+        modelBuilder.Entity<Idareci>()
+            .Property(e => e.OgretimElemaniList)
+            .HasConversion(new StringListConverter());
         base.OnModelCreating(modelBuilder);
     }
 

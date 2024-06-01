@@ -43,11 +43,6 @@
 
 <text> &nbsp; &nbsp; &nbsp;</text>
 
-<div class="d-flex justify-content-center"> Ogrenci icin : 11122233344, 123456 </div>
-<div class="d-flex justify-content-center"> Idareci icin : 33344455566, 1212 </div>
-<div class="d-flex justify-content-center"> OgretimElemani icin : 12345654321, 2323 </div>
-<div class="d-flex justify-content-center"> Danisman icin : 11223344556, 1234 </div>
-
 @if (@OgrenciList is not null && @OgrenciList.Count > 0)
 {
     <div class="table-responsive">
@@ -57,11 +52,6 @@
                     <th scope="col">TCKimlikNo</th>
                     <th scope="col">Ad</th>
                     <th scope="col">Password</th>
-                    <th scope="col">UyelikType</th>
-                    <th scope="col">Sinif</th>
-                    <th scope="col">Donem</th>
-                    <th scope="col">Danisman</th>
-                    <th scope="col">Dersler</th>
                 </tr>
             </thead>
             <tbody>
@@ -72,11 +62,6 @@
                         <th scope="row">@Ogrenci.TCKimlikNo</th>
                         <td>@Ogrenci.Ad</td>
                         <td>@Ogrenci.Password</td>
-                        <td>@Ogrenci.UyelikType</td>
-                        <td>@Ogrenci.Sinif</td>
-                        <td>@Ogrenci.Donem</td>
-                        <td>@Ogrenci.OgrenciDanismani</td>
-                        <td>@string.Join(", ", Ogrenci.SecilmisDersler)</td>
                     </tr>
                 }
 
