@@ -1,12 +1,12 @@
-﻿using FinalTestProject.Models.Accounts;
+﻿using FinalTestProject.Data;
 
 namespace FinalTestProject.Models
 {
     public class DersSecimi
     {
-        public List<Ders> secilenDersler = new List<Ders>();
-        public long ogr_no ;
-        public Danisman onaylayan = new Danisman();
+        public List<string>? secilenDersler { get; set; }
+        public long KimlikNo { get; set; }
+        public string? DanismanNo { get; set; }
         public bool onay;
 
 

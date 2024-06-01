@@ -1,21 +1,21 @@
-﻿using FinalTestProject.Models.Accounts;
+﻿using FinalTestProject.Data;
+using FinalTestProject.Models.Accounts;
 using System.ComponentModel.DataAnnotations;
 
 namespace FinalTestProject.Models
 {
-	public class Ders
+    public class Ders
 	{
 		[Key]
-		public string DersKodu = "";
-		public OgretimElemani atananOgretimElemani = new();
-		public int SaatCount;
-		public int Yariyil;
-		public float AKTS;
-		public float Kredi;
-		public string DersAdi = "";
-		public DersNotu dersinNotu = new();
-		public List<Ogrenci> OgrenciList = [];
+		public string? DersKodu { get; set; }
+        public string? DersAdi { get; set; }
+        public int SaatCount { get; set; }
+        public int Yariyil { get; set; }
+        public float AKTS { get; set; }
+        public float Kredi { get; set; }
 
-	}
+        public DersNotu DersinNotu = new();
+        public List<string>? OgrenciList { get; set; }
+    }
 
 }

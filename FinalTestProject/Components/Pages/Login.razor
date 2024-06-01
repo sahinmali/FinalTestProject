@@ -1,12 +1,16 @@
-﻿@page "/"
-@inject UserData UserData
+﻿@inject UserData UserData
 @inject NavigationManager NavigationManager
 @using FinalTestProject.Models.Accounts
 @using static FinalTestProject.Models.Constants;
+@using FinalTestProject.Data;
+@using Microsoft.EntityFrameworkCore
 @inject DatabaseHandler DatabaseHandler;
+@page "/"
+
 
 <PageTitle>Login</PageTitle>
 
+@inject IDbContextFactory<UbysSystemDbContext> UbysSystemDbContext;
 
 <div class="d-flex justify-content-center">
     <h1>UBYS Sistemine Hosgeldiniz</h1>
@@ -17,12 +21,12 @@
 <text> &nbsp; &nbsp; &nbsp;</text>
 
 <div class="d-flex justify-content-center">
-    Kimlik No: <input type="number" inputmode="numeric" pattern="[0-9]*" @bind="userId" />
+    Kimlik No: <input type="number" inputmode="numeric" pattern="[0-9]*" @bind="UserKimlikNo" />
 </div>
 
 <div style="margin-top: 20px;" class="form-group password-container d-flex justify-content-center">
     <label for="passwordInput">Password:</label>
-    <input type="password" id="passwordInput" @bind="password" />
+    <input type="password" id="passwordInput" @bind="Password" />
 </div>
 
 <div style="margin-top: 20px;" class="d-flex justify-content-center">
@@ -44,66 +48,39 @@
 <div class="d-flex justify-content-center"> OgretimElemani icin : 12345654321, 2323 </div>
 <div class="d-flex justify-content-center"> Danisman icin : 11223344556, 1234 </div>
 
+@if (@OgrenciList is not null && @OgrenciList.Count > 0)
+{
+    <div class="table-responsive">
+        <table class="table table-striped table-hover table-bordered table-light border-dark">
+            <thead>
+                <tr>
+                    <th scope="col">TCKimlikNo</th>
+                    <th scope="col">Ad</th>
+                    <th scope="col">Password</th>
+                    <th scope="col">UyelikType</th>
+                    <th scope="col">Sinif</th>
+                    <th scope="col">Donem</th>
+                    <th scope="col">Danisman</th>
+                    <th scope="col">Dersler</th>
+                </tr>
+            </thead>
+            <tbody>
 
-@code {
+                @foreach (var Ogrenci in @OgrenciList)
+                {
+                    <tr>
+                        <th scope="row">@Ogrenci.TCKimlikNo</th>
+                        <td>@Ogrenci.Ad</td>
+                        <td>@Ogrenci.Password</td>
+                        <td>@Ogrenci.UyelikType</td>
+                        <td>@Ogrenci.Sinif</td>
+                        <td>@Ogrenci.Donem</td>
+                        <td>@Ogrenci.OgrenciDanismani</td>
+                        <td>@string.Join(", ", Ogrenci.SecilmisDersler)</td>
+                    </tr>
+                }
 
-    private List<Ogrenci> accounts = [];
-    private string userId = "";
-    private string password = "";
-    private string errorMessage = "";
-
-    protected override async Task OnInitializedAsync()
-    {
-        accounts = await DatabaseHandler.GetOgrenciListAsync();
-        foreach (var a in accounts)
-        {
-            Console.WriteLine(a.Ad);
-        }
-    }
-    protected void LoginControl()
-    {
-        var credentials = ValidateCredentials(userId, password);
-        errorMessage = "";
-
-        if (string.IsNullOrEmpty(userId) || string.IsNullOrEmpty(password))
-        {
-            errorMessage = "Kimlik No ve Şifre giriniz.";
-            return;
-        }
-
-        if (credentials.Ad != "")
-        {
-            Console.WriteLine("Entered");
-            if (credentials.UyelikType == UyelikType.Ogrenci)
-            {
-                NavigationManager.NavigateTo("/OgrenciLayout");
-            }
-            else if (credentials.UyelikType == UyelikType.Danisman)
-            {
-                NavigationManager.NavigateTo("/DanismanLayout");
-            }
-            else if (credentials.UyelikType == UyelikType.Idareci)
-            {
-                NavigationManager.NavigateTo("/IdareciLayout");
-            }
-            else if (credentials.UyelikType == UyelikType.OgretimElemani)
-            {
-                NavigationManager.NavigateTo("/OgretimElemaniLayout");
-            }
-        }
-    }
-
-    private Ogrenci ValidateCredentials(string userId, string password)
-    {
-        Ogrenci targetHesap = new();
-        foreach (var acc in accounts)
-        {
-            if (acc.TCKimlikNo.ToString() == userId && acc.Password.ToString() == password)
-            {
-                targetHesap = acc;
-                break;
-            }
-        }
-        return targetHesap;
-    }
+            </tbody>
+        </table>
+    </div>
 }

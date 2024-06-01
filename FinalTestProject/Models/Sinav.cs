@@ -1,8 +1,8 @@
-﻿using FinalTestProject.Models.Accounts;
+﻿using FinalTestProject.Data;
 
 namespace FinalTestProject.Models
 {
-	public class Sinav
+    public class Sinav
 	{
 		public float ogr_not;
         public float yuzde;

@@ -1,14 +1,29 @@
+using FinalTestProject.Data;
 using FinalTestProject.Models;
-using FinalTestProject.Models.Accounts;
 using Microsoft.EntityFrameworkCore;
 
 public class DatabaseHandler
 {
-    private readonly UbysSystemDbContext _context;
+    private UbysSystemDbContext? _context;
+
+    public bool ShowCreate { get; set; }
+    public Ogrenci ExistingOgrenci { get; set; }
 
     public DatabaseHandler(UbysSystemDbContext context)
     {
         _context = context;
+    }
+
+    //Ogrenci
+    public async Task<List<Ogrenci>> GetOgrenciListAsync()
+    {
+        return await _context.Ogrenci.ToListAsync();
+    }
+
+    public async Task UpdateOgrenciAsync(Ogrenci ogrenci)
+    {
+        _context.Ogrenci.Update(ogrenci);
+        await _context.SaveChangesAsync();
     }
 
     //Danisman
@@ -20,18 +35,6 @@ public class DatabaseHandler
     public async Task UpdateDanismanAsync(Danisman danisman)
     {
         _context.Danisman.Update(danisman);
-        await _context.SaveChangesAsync();
-    }
-
-    //Ogrenci
-    public async Task<List<Ogrenci>> GetOgrenciListAsync()
-    {
-        return await _context.Ogrenci.ToListAsync();
-    }
-
-    public async Task UpdateOgrenciAsync(Ogrenci ogrenci)
-    {
-		_context.Ogrenci.Update(ogrenci);
         await _context.SaveChangesAsync();
     }
 

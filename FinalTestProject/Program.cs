@@ -3,22 +3,17 @@ using FinalTestProject.Models.Accounts;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("UbysSystemDB");
+
+builder.Services.AddRazorPages();
+builder.Services.AddServerSideBlazor();
+builder.Services.AddDbContextFactory<UbysSystemDbContext>(options => options.UseSqlite(connectionString));
+builder.Services.AddScoped<DatabaseHandler>();
+builder.Services.AddSingleton<UserData>();
 
 builder.Services.AddRazorComponents()
 	.AddInteractiveServerComponents()
 	.AddInteractiveWebAssemblyComponents();
-
-builder.Services.AddRazorPages();
-builder.Services.AddServerSideBlazor();
-
-var dbPath = Path.Combine("Data", "UbysSystem.db");
-
-builder.Services.AddDbContext<UbysSystemDbContext>(options =>
-	options.UseSqlite($"Data Source={dbPath}")); // Log to console);
-
-builder.Services.AddScoped<DatabaseHandler>();
-
-builder.Services.AddSingleton<UserData>();
 var app = builder.Build();
 
 
@@ -37,7 +32,6 @@ else
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseAntiforgery();
-
 
 app.MapRazorComponents<App>()
 	.AddInteractiveServerRenderMode()

@@ -1,13 +1,13 @@
-﻿using FinalTestProject.Models.Accounts;
+﻿using FinalTestProject.Data;
 using static FinalTestProject.Models.Constants;
 
 namespace FinalTestProject.Models
 {
-	public class DersNotu
+    public class DersNotu
 	{
-		public Ogrenci Ogrenci = new Ogrenci();
-		public Sinav AraSinav = new Sinav() { yuzde = 0.4f };
-		public Sinav FinalSinav = new Sinav() { yuzde = 0.6f };
+		public Ogrenci? Ogrenci { get; set; }
+        public Sinav AraSinav = new() { yuzde = 0.4f };
+		public Sinav FinalSinav = new() { yuzde = 0.6f };
 		public float SonucNotu;
 		public HarfNotlari HarfNotu;
 		public bool YoklamaDurumu;
