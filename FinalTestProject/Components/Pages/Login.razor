@@ -52,16 +52,18 @@
                     <th scope="col">TCKimlikNo</th>
                     <th scope="col">Ad</th>
                     <th scope="col">Password</th>
+                    <th scope="col">UyelikType</th>
                 </tr>
             </thead>
             <tbody>
 
-                @foreach (var Ogrenci in @OgrenciList)
+                @foreach (var Hesap in @HesapList)
                 {
                     <tr>
-                        <th scope="row">@Ogrenci.TCKimlikNo</th>
-                        <td>@Ogrenci.Ad</td>
-                        <td>@Ogrenci.Password</td>
+                        <th scope="row">@Hesap.TCKimlikNo</th>
+                        <td>@Hesap.Ad</td>
+                        <td>@Hesap.Password</td>
+                        <td>@Hesap.UyelikType</td>
                     </tr>
                 }
 
