@@ -41,6 +41,10 @@ public class UbysSystemDbContext : DbContext
             .Property(e => e.OgretimElemaniList)
             .HasConversion(new StringListConverter());
         modelBuilder.Entity<Ders>()
+            .HasOne(o => o.OgretimElemani)  
+            .WithMany()                   
+            .HasForeignKey(o => o.OgretimElemaniTc);
+        modelBuilder.Entity<Ders>()
         .Property(e => e.OgrenciList)
         .HasConversion(new StringListConverter());
         modelBuilder.Entity<DersNotu>().HasNoKey();

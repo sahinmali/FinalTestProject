@@ -6,57 +6,54 @@ using Microsoft.AspNetCore.Components;
 using static FinalTestProject.Models.Constants;
 using System.Collections.Generic;
 using System.Threading.Tasks;
+using FinalTestProject.Models;
 
 namespace FinalTestProject.Components.Pages
 {
-    public partial class DanismanOgrGor 
+    public partial class OgretimElemaniDersGor
     {
         [Inject] private UbysSystemDbContext DbContext { get; set; }
 
         [Inject] private SessionState SessionState { get; set; }
 
-        public Danisman? Danisman { get; set; }
-        public string Danisman_Adi { get; set; }
-        public List<Ogrenci> TanimliOgrenciler { get; set; } = new List<Ogrenci>();
+        public OgretimElemani? OgretimEleman { get; set; }
 
-        public List<string>? TanimliOgrenciNolar { get; set; }
+        public List<Ders>? TanimliDersler { get; set; } = new List<Ders>();
+
         public bool ShowCreate { get; set; }
 
         private UbysSystemDbContext? _context;
-        
+
         private string errorMessage = "";
-        public string deneme = "";
 
         protected override async Task OnInitializedAsync()
         {
             ShowCreate = false;
-            await GetDanisman();
+            await GetOgrEleman();
         }
 
-        public async Task GetDanisman()
+        public async Task GetOgrEleman()
         {
             if (SessionState.UserTCKimlikNo is not null && DbContext is not null)
             {
                 try
                 {
-                    Danisman = await DbContext.Danisman
+                    OgretimEleman = await DbContext.OgretimElemani
                         .FirstOrDefaultAsync(d => d.TCKimlikNo.ToString() == SessionState.UserTCKimlikNo);
 
-                    if (Danisman is not null)
+                    if (OgretimEleman is not null)
                     {
-                        Danisman_Adi = Danisman.Ad;
                         // Populate other properties if needed
-                        TanimliOgrenciNolar = Danisman.TanimliOgrenciler;
-                        await GetTanimliOgrler(); // Metodun çağrılması async olarak yapılmalı
+                        await GetTanimliDersler(); // Metodun çağrılması async olarak yapılmalı
                     }
                     else
                     {
-                        errorMessage = "Danisman not found";
+                        errorMessage = "OgretimElemani not found";
                     }
                 }
                 catch (Exception ex)
                 {
-                    errorMessage = $"Error fetching Danisman: {ex.Message}";
+                    errorMessage = $"Error fetching OgretimEleman: {ex.Message}";
                 }
             }
             else
@@ -65,13 +62,12 @@ namespace FinalTestProject.Components.Pages
             }
         }
 
-        public async Task GetTanimliOgrler()
+        public async Task GetTanimliDersler()
         {
-            if (DbContext is not null && TanimliOgrenciNolar != null)
+            if (DbContext is not null && TanimliDersler != null)
             {
-                deneme += "";
-                TanimliOgrenciler = await DbContext.Ogrenci
-                                .Where(o => o.OgrenciDanismani.ToString() == Danisman.TCKimlikNo.ToString())
+                TanimliDersler = await DbContext.Ders
+                                .Where(d => d.OgretimElemaniTc.ToString() == OgretimEleman.TCKimlikNo.ToString())
                                 .ToListAsync();
             }
         }
