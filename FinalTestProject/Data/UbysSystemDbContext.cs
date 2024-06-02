@@ -44,8 +44,11 @@ public class UbysSystemDbContext : DbContext
             .WithMany()
             .HasForeignKey(o => o.OgretimElemaniTc);
         modelBuilder.Entity<Ders>()
-        .Property(e => e.OgrenciList)
-        .HasConversion(new StringListConverter());
+            .Property(e => e.OgrenciList)
+            .HasConversion(new StringListConverter());
+        modelBuilder.Entity<DersSecimi>().HasNoKey()
+            .Property(e => e.SecilenDersler)
+            .HasConversion(new StringListConverter());
 
         modelBuilder.Entity<DersNotu>(entity =>
         {
@@ -60,12 +63,12 @@ public class UbysSystemDbContext : DbContext
                   .HasForeignKey(e => e.DersKodu)
                   .OnDelete(DeleteBehavior.Restrict); // Foreign Key to Ders
 
-            // Diðer alanlar için kolonlar ekleyelim
+            // Diï¿½er alanlar iï¿½in kolonlar ekleyelim
             entity.Property(e => e.SonucNotu).IsRequired();
             entity.Property(e => e.HarfNotu).IsRequired();
             entity.Property(e => e.YoklamaDurumu).IsRequired();
 
-            // Sinav türündeki alanlarý konfigurasyon yapalým
+            // Sinav tï¿½rï¿½ndeki alanlarï¿½ konfigurasyon yapalï¿½m
             entity.OwnsOne(e => e.AraSinav, sa =>
             {
                 sa.Property(p => p.yuzde).HasColumnName("AraSinavYuzde");

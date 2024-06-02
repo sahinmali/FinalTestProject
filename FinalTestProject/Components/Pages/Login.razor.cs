@@ -3,7 +3,6 @@ using FinalTestProject.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Components;
 using static FinalTestProject.Models.Constants;
-using Microsoft.AspNetCore.Components.Authorization;
 
 namespace FinalTestProject.Components.Pages
 {

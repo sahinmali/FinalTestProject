@@ -1,6 +1,5 @@
 @inherits LayoutComponentBase
 @page "/Pages/OgrenciDers"
-@using FinalTestProject.Models.Accounts
 
 @if (SessionState.IsAuthenticated)
 {
@@ -9,7 +8,7 @@
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <span class="navbar-brand">OgrenciPage</span>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarNav">
@@ -35,7 +34,7 @@
             <!-- Add any other user-specific header content here -->
         </header>
 
-        <!-- Hata mesajýný göstermek için eklenen kýsým -->
+        <!-- Hata mesajï¿½nï¿½ gï¿½stermek iï¿½in eklenen kï¿½sï¿½m -->
         @if (!string.IsNullOrEmpty(errorMessage))
         {
             <div style="color: red; margin-top: 20px;" class="d-flex justify-content-center">
@@ -56,12 +55,12 @@
                         <thead>
                             <tr>
                                 <th scope="col">Ders Kodu</th>
-                                <th scope="col">Ders Adý</th>
+                                <th scope="col">Ders Adi</th>
                                 <td scope="col">Vize Notu</td>
                                 <th scope="col">Final Notu</th>
                                 <th scope="col">Harf Notu</th>
                                 <th scope="col">Yoklama Durumu</th>
-                                <th scope="col">Baþarý Durumu</th>
+                                <th scope="col">Basari Durumu</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -73,7 +72,7 @@
                                     <td>@ders.AraSinav.ogr_not</td>
                                     <td>@ders.FinalSinav.ogr_not</td>
                                     <td>@ders.HarfNotu</td>
-                                    <td>@(ders.YoklamaDurumu == 1 ? "Devamlý" : "Devamsýz")</td>
+                                    <td>@(ders.YoklamaDurumu == 1 ? "Devamli" : "Devamsiz")</td>
                                     <td>@ders.basari_durumu</td>
                                 </tr>
                             }

@@ -1,9 +1,6 @@
 using FinalTestProject.Components;
-using FinalTestProject.Models.Accounts;
-using FinalTestProject.Services;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.EntityFrameworkCore;
+using FinalTestProject.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 var connectionString = builder.Configuration.GetConnectionString("UbysSystemDB");
@@ -11,16 +8,15 @@ var connectionString = builder.Configuration.GetConnectionString("UbysSystemDB")
 builder.Services.AddRazorPages();
 builder.Services.AddServerSideBlazor();
 builder.Services.AddDbContextFactory<UbysSystemDbContext>(options => options.UseSqlite(connectionString));
-builder.Services.AddSingleton<UserData>();
 
 // HttpContextAccessor servisini ekleyin
 builder.Services.AddHttpContextAccessor();
 
 // Register Session State service
-builder.Services.AddScoped<FinalTestProject.Services.SessionState>();
+builder.Services.AddScoped<SessionState>();
 
 //Logout servisinin eklenmesi
-builder.Services.AddScoped<FinalTestProject.Services.LogoutService>();
+builder.Services.AddScoped<LogoutService>();
 
 
 // Session servisini ekleyin
