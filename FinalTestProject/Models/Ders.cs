@@ -18,11 +18,10 @@ namespace FinalTestProject.Models
         [ForeignKey("OgretimElemani")]
         public long? OgretimElemaniTc { get; set; }
 
-        public OgretimElemani OgretimElemani { get; set; }
+        public OgretimElemani? OgretimElemani { get; set; }
 
         [NotMapped]
-        public DersNotu DersinNotu { get; set; }
-
+        public DersNotu? DersinNotu { get; set; }
     }
 
 }

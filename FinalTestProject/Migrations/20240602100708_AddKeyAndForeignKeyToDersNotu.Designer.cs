@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinalTestProject.Migrations
 {
     [DbContext(typeof(UbysSystemDbContext))]
-    partial class UbysSystemDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240602100708_AddKeyAndForeignKeyToDersNotu")]
+    partial class AddKeyAndForeignKeyToDersNotu
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.6");
@@ -167,16 +170,7 @@ namespace FinalTestProject.Migrations
                     b.Property<string>("DersKodu")
                         .HasColumnType("TEXT");
 
-                    b.Property<int>("HarfNotu")
-                        .HasColumnType("INTEGER");
-
                     b.Property<long?>("OgrenciTc")
-                        .HasColumnType("INTEGER");
-
-                    b.Property<float>("SonucNotu")
-                        .HasColumnType("REAL");
-
-                    b.Property<bool>("YoklamaDurumu")
                         .HasColumnType("INTEGER");
 
                     b.HasKey("Id");
@@ -218,53 +212,7 @@ namespace FinalTestProject.Migrations
                         .HasForeignKey("OgrenciTc")
                         .OnDelete(DeleteBehavior.Restrict);
 
-                    b.OwnsOne("FinalTestProject.Models.Sinav", "AraSinav", b1 =>
-                        {
-                            b1.Property<int>("DersNotuId")
-                                .HasColumnType("INTEGER");
-
-                            b1.Property<float>("ogr_not")
-                                .HasColumnType("REAL")
-                                .HasColumnName("AraSinavNot");
-
-                            b1.Property<float>("yuzde")
-                                .HasColumnType("REAL")
-                                .HasColumnName("AraSinavYuzde");
-
-                            b1.HasKey("DersNotuId");
-
-                            b1.ToTable("DersNotu");
-
-                            b1.WithOwner()
-                                .HasForeignKey("DersNotuId");
-                        });
-
-                    b.OwnsOne("FinalTestProject.Models.Sinav", "FinalSinav", b1 =>
-                        {
-                            b1.Property<int>("DersNotuId")
-                                .HasColumnType("INTEGER");
-
-                            b1.Property<float>("ogr_not")
-                                .HasColumnType("REAL")
-                                .HasColumnName("FinalSinavNot");
-
-                            b1.Property<float>("yuzde")
-                                .HasColumnType("REAL")
-                                .HasColumnName("FinalSinavYuzde");
-
-                            b1.HasKey("DersNotuId");
-
-                            b1.ToTable("DersNotu");
-
-                            b1.WithOwner()
-                                .HasForeignKey("DersNotuId");
-                        });
-
-                    b.Navigation("AraSinav");
-
                     b.Navigation("Ders");
-
-                    b.Navigation("FinalSinav");
 
                     b.Navigation("Ogrenci");
                 });

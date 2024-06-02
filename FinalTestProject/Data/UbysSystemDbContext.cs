@@ -46,7 +46,39 @@ public class UbysSystemDbContext : DbContext
         modelBuilder.Entity<Ders>()
         .Property(e => e.OgrenciList)
         .HasConversion(new StringListConverter());
-        modelBuilder.Entity<DersNotu>().HasNoKey();
+
+        modelBuilder.Entity<DersNotu>(entity =>
+        {
+            entity.HasKey(e => e.Id); // Primary Key
+            entity.HasOne(e => e.Ogrenci)
+                  .WithMany()
+                  .HasForeignKey(e => e.OgrenciTc)
+                  .OnDelete(DeleteBehavior.Restrict); // Foreign Key to Ogrenci
+
+            entity.HasOne(e => e.Ders)
+                  .WithMany()
+                  .HasForeignKey(e => e.DersKodu)
+                  .OnDelete(DeleteBehavior.Restrict); // Foreign Key to Ders
+
+            // Diðer alanlar için kolonlar ekleyelim
+            entity.Property(e => e.SonucNotu).IsRequired();
+            entity.Property(e => e.HarfNotu).IsRequired();
+            entity.Property(e => e.YoklamaDurumu).IsRequired();
+
+            // Sinav türündeki alanlarý konfigurasyon yapalým
+            entity.OwnsOne(e => e.AraSinav, sa =>
+            {
+                sa.Property(p => p.yuzde).HasColumnName("AraSinavYuzde");
+                sa.Property(p => p.ogr_not).HasColumnName("AraSinavNot");
+            });
+
+            entity.OwnsOne(e => e.FinalSinav, sf =>
+            {
+                sf.Property(p => p.yuzde).HasColumnName("FinalSinavYuzde");
+                sf.Property(p => p.ogr_not).HasColumnName("FinalSinavNot");
+            });
+        });
+
         base.OnModelCreating(modelBuilder);
     }
 
@@ -55,5 +87,6 @@ public class UbysSystemDbContext : DbContext
     public DbSet<Idareci> Idareci { get; set; }
     public DbSet<Ogrenci> Ogrenci { get; set; }
     public DbSet<OgretimElemani> OgretimElemani { get; set; }
+    public DbSet<DersNotu> DersNotu { get; set; }
 
 }

@@ -1,11 +1,22 @@
 ﻿using FinalTestProject.Data;
+using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using static FinalTestProject.Models.Constants;
 
 namespace FinalTestProject.Models
 {
     public class DersNotu
 	{
-		public Ogrenci? Ogrenci { get; set; }
+		[Key]
+		public int Id { get; set; }
+        [ForeignKey("Ogrenci")]
+        public long? OgrenciTc { get; set; }
+        public Ogrenci? Ogrenci { get; set; }
+
+        [ForeignKey("Ders")]
+        public string? DersKodu { get; set; }
+		public Ders? Ders {  get; set; }
+
         public Sinav AraSinav = new() { yuzde = 0.4f };
 		public Sinav FinalSinav = new() { yuzde = 0.6f };
 		public float SonucNotu;
