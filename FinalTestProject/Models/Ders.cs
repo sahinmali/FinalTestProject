@@ -22,6 +22,7 @@ namespace FinalTestProject.Models
 
         [NotMapped]
         public DersNotu DersinNotu { get; set; }
+
     }
 
 }

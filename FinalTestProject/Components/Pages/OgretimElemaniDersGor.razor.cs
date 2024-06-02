@@ -1,11 +1,7 @@
 ﻿using FinalTestProject.Services;
 using FinalTestProject.Data;
-using FinalTestProject.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Components;
-using static FinalTestProject.Models.Constants;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 using FinalTestProject.Models;
 
 namespace FinalTestProject.Components.Pages
@@ -21,8 +17,6 @@ namespace FinalTestProject.Components.Pages
         public List<Ders>? TanimliDersler { get; set; } = new List<Ders>();
 
         public bool ShowCreate { get; set; }
-
-        private UbysSystemDbContext? _context;
 
         private string errorMessage = "";
 

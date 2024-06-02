@@ -86,11 +86,14 @@
                         <tbody>
                             @foreach (var ders in DersList)
                             {
-                                <tr>
-                                    <td>@ders.DersAdi</td>
-                                    <td>@ders.DersKodu</td>
-                                    <!-- Add other columns as needed -->
-                                </tr>
+                                @if (ders.OgretimElemaniTc == null)
+                                {
+                                    <tr>
+                                        <td>@ders.DersAdi</td>
+                                        <td>@ders.DersKodu</td>
+                                        <!-- Add other columns as needed -->
+                                    </tr>
+                                }
                             }
                         </tbody>
                     </table>

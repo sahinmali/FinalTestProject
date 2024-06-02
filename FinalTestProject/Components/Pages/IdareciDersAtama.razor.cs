@@ -13,7 +13,6 @@ namespace FinalTestProject.Components.Pages
         private int? selectedOEKimlikNo;
         private string buttonText = "Ogretim Elemani";
         private bool _IsOESelected = false;
-
         public long EditingId { get; private set; }
         public bool EditRecord { get; set; }
         private string newDers = "";
@@ -34,7 +33,6 @@ namespace FinalTestProject.Components.Pages
 
                 DersList = await _context.Ders.ToListAsync();
             }
-            if (_context is not null) await _context.DisposeAsync();
         }
 
         public void OnHesapSelected(long TCKimlikNo)
@@ -47,19 +45,29 @@ namespace FinalTestProject.Components.Pages
 
         public async Task UpdateOE()
         {
-            Console.WriteLine(selectedOE);
             if (selectedOE.SecilmisDersler.Contains(newDers) || !IsDersExist(newDers)) return;
-            _context ??= await UbysSystemDbContext.CreateDbContextAsync();
+            Ders targetDers = GetDers(newDers);
+            if (SaatAsildiMi(targetDers)) return;
 
+            _context ??= await UbysSystemDbContext.CreateDbContextAsync();
             if (_context is not null)
             {
                 selectedOE.SecilmisDersler.Add(newDers);
+                targetDers.OgretimElemaniTc = selectedOE.TCKimlikNo;
+                if (selectedOE is not null)
+                {
+                    _context.OgretimElemani.Update(selectedOE);
+                    _context.Ders.Update(targetDers);
+                }
                 newDers = ""; // Clear the input after adding
-                if (selectedOE is not null) _context.OgretimElemani.Update(selectedOE);
                 EditRecord = false;
                 await _context.SaveChangesAsync();
             }
-            if (_context is not null) await _context.DisposeAsync();
+        }
+
+        private bool SaatAsildiMi(Ders targetDers)
+        {
+            return GetTotalSaatCount() + targetDers.SaatCount > ValidValues.LimitSaatCount;
         }
 
         private bool IsDersExist(string targetDersKodu)
@@ -74,6 +82,44 @@ namespace FinalTestProject.Components.Pages
                 }
             }
             return isExist;
+        }
+
+        private Ders GetDers(string DersKodu)
+        {
+            return DersList.FirstOrDefault(h => h.DersKodu == DersKodu);
+        }
+
+        private int GetTotalSaatCount()
+        {
+            int totalSaatCount = 0;
+            List<Ders> dersler = GetDersList(selectedOE);
+            foreach (var item in dersler)
+            {
+                totalSaatCount += item.SaatCount;
+            }
+            return totalSaatCount;
+        }
+
+        private List<Ders> GetDersList(OgretimElemani oe)
+        {
+            List<Ders> atanmisDersler = [];
+
+            foreach (var item in oe.SecilmisDersler)
+            {
+                atanmisDersler.Add(GetDers(item));
+            }
+            return atanmisDersler;
+        }
+
+        //bunu tekrar dusun
+        public void VizeNotGir(float not, DersNotu ders_not)
+        {
+            ders_not.setAraSinav(not);
+        }
+
+        public void FinalNotGir(float not, DersNotu ders_not)
+        {
+            ders_not.setFinal(not);
         }
     }
 }

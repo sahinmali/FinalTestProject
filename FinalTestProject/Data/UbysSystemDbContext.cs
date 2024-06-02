@@ -18,9 +18,9 @@ public class UbysSystemDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Ogrenci>()
-            .HasOne(o => o.OgrDanisman)  // Ogrenci sýnýfýnýn Danisman navigasyon özelliðine baðlanýr
-            .WithMany()                   // Danisman sýnýfýnýn herhangi bir özelliðiyle eþleþtirilir (Birden çok öðrenci bir danýþmana sahip olabilir)
-            .HasForeignKey(o => o.OgrenciDanismani); // Ogrenci sýnýfýndaki OgrenciDanismani foreign key ile eþleþtirilir
+            .HasOne(o => o.OgrDanisman)  // Ogrenci sï¿½nï¿½fï¿½nï¿½n Danisman navigasyon ï¿½zelliï¿½ine baï¿½lanï¿½r
+            .WithMany()                   // Danisman sï¿½nï¿½fï¿½nï¿½n herhangi bir ï¿½zelliï¿½iyle eï¿½leï¿½tirilir (Birden ï¿½ok ï¿½ï¿½renci bir danï¿½ï¿½mana sahip olabilir)
+            .HasForeignKey(o => o.OgrenciDanismani); // Ogrenci sï¿½nï¿½fï¿½ndaki OgrenciDanismani foreign key ile eï¿½leï¿½tirilir
         modelBuilder.Entity<Ogrenci>()
             .Property(e => e.SecilmisDersler)
             .HasConversion(new StringListConverter());
@@ -33,7 +33,6 @@ public class UbysSystemDbContext : DbContext
         modelBuilder.Entity<Idareci>()
             .Property(e => e.AcilanDersler)
             .HasConversion(new StringListConverter());
-
         modelBuilder.Entity<Idareci>()
             .Property(e => e.DersListe)
             .HasConversion(new StringListConverter());
@@ -41,8 +40,8 @@ public class UbysSystemDbContext : DbContext
             .Property(e => e.OgretimElemaniList)
             .HasConversion(new StringListConverter());
         modelBuilder.Entity<Ders>()
-            .HasOne(o => o.OgretimElemani)  
-            .WithMany()                   
+            .HasOne(o => o.OgretimElemani)
+            .WithMany()
             .HasForeignKey(o => o.OgretimElemaniTc);
         modelBuilder.Entity<Ders>()
         .Property(e => e.OgrenciList)

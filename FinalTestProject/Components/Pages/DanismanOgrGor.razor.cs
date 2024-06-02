@@ -1,15 +1,11 @@
 ﻿using FinalTestProject.Services;
 using FinalTestProject.Data;
-using FinalTestProject.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Components;
-using static FinalTestProject.Models.Constants;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace FinalTestProject.Components.Pages
 {
-    public partial class DanismanOgrGor 
+    public partial class DanismanOgrGor
     {
         [Inject] private UbysSystemDbContext DbContext { get; set; }
 
@@ -19,11 +15,10 @@ namespace FinalTestProject.Components.Pages
         public string Danisman_Adi { get; set; }
         public List<Ogrenci> TanimliOgrenciler { get; set; } = new List<Ogrenci>();
 
-        public List<string>? TanimliOgrenciNolar { get; set; }
         public bool ShowCreate { get; set; }
 
         private UbysSystemDbContext? _context;
-        
+
         private string errorMessage = "";
         public string deneme = "";
 
@@ -46,7 +41,6 @@ namespace FinalTestProject.Components.Pages
                     {
                         Danisman_Adi = Danisman.Ad;
                         // Populate other properties if needed
-                        TanimliOgrenciNolar = Danisman.TanimliOgrenciler;
                         await GetTanimliOgrler(); // Metodun çağrılması async olarak yapılmalı
                     }
                     else
@@ -67,7 +61,7 @@ namespace FinalTestProject.Components.Pages
 
         public async Task GetTanimliOgrler()
         {
-            if (DbContext is not null && TanimliOgrenciNolar != null)
+            if (DbContext is not null)
             {
                 deneme += "";
                 TanimliOgrenciler = await DbContext.Ogrenci
