@@ -6,9 +6,6 @@ namespace FinalTestProject.Models
 	{
 		public float ogr_not;
         public float yuzde;
-		public DersNotu dersnot = new DersNotu();
-		public OgretimElemani ogr_eleman = new OgretimElemani();
-
 		public void notAta(float not)
 		{
 			this.ogr_not = not;

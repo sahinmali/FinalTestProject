@@ -21,7 +21,8 @@ namespace FinalTestProject.Models
 		public Sinav FinalSinav = new() { yuzde = 0.6f };
 		public float SonucNotu;
 		public HarfNotlari HarfNotu;
-		public bool YoklamaDurumu;
+		public int YoklamaDurumu;
+		public string basari_durumu;
 		
 		public void setAraSinav(float vize_not)
 		{
@@ -32,54 +33,68 @@ namespace FinalTestProject.Models
 			this.FinalSinav.notAta(final_not);
 		}
 
-		public void HesaplaSonuc()
+		public void HesaplaGecmeNotu()
 		{
-			HesaplaGecmeNotu();
-		}
-
-		private void HesaplaGecmeNotu()
-		{
-			SonucNotu = AraSinav.notHesapla() + FinalSinav.notHesapla();
-		}
+			SonucNotu = (AraSinav.notHesapla() + FinalSinav.notHesapla())/100;
+            HesaplaHarfNotu();
+        }
 
 		private void HesaplaHarfNotu()
 		{
-			if (SonucNotu >= 90)
+			if (YoklamaDurumu == 1) 
 			{
-				HarfNotu = HarfNotlari.AA;
-			}
-			else if (SonucNotu >= 85 && SonucNotu < 90)
-			{
-				HarfNotu = HarfNotlari.BA;
-			}
-			else if (SonucNotu >= 80 && SonucNotu < 85)
-			{
-				HarfNotu = HarfNotlari.BB;
-			}
-			else if (SonucNotu >= 70 && SonucNotu < 80)
-			{
-				HarfNotu = HarfNotlari.CB;
-			}
-			else if (SonucNotu >= 60 && SonucNotu < 70)
-			{
-				HarfNotu = HarfNotlari.CC;
-			}
-			else if (SonucNotu >= 55 && SonucNotu < 60)
-			{
-				HarfNotu = HarfNotlari.DC;
-			}
-			else if (SonucNotu >= 50 && SonucNotu < 55)
-			{
-				HarfNotu = HarfNotlari.DD;
-			}
-			else if (SonucNotu >= 40 && SonucNotu < 50)
-			{
-				HarfNotu = HarfNotlari.FD;
-			}
-			else
-			{
-				HarfNotu = HarfNotlari.FF;
-			}
+                if (SonucNotu >= 90)
+                {
+                    HarfNotu = HarfNotlari.AA;
+                    basari_durumu = "Basarili";
+
+                }
+                else if (SonucNotu >= 85 && SonucNotu < 90)
+                {
+                    HarfNotu = HarfNotlari.BA;
+                    basari_durumu = "Basarili";
+                }
+                else if (SonucNotu >= 80 && SonucNotu < 85)
+                {
+                    HarfNotu = HarfNotlari.BB;
+                    basari_durumu = "Basarili";
+                }
+                else if (SonucNotu >= 70 && SonucNotu < 80)
+                {
+                    HarfNotu = HarfNotlari.CB;
+                    basari_durumu = "Basarili";
+                }
+                else if (SonucNotu >= 60 && SonucNotu < 70)
+                {
+                    HarfNotu = HarfNotlari.CC;
+                    basari_durumu = "Basarili";
+                }
+                else if (SonucNotu >= 55 && SonucNotu < 60)
+                {
+                    HarfNotu = HarfNotlari.DC;
+                    basari_durumu = "Basarili";
+                }
+                else if (SonucNotu >= 50 && SonucNotu < 55)
+                {
+                    HarfNotu = HarfNotlari.DD;
+                    basari_durumu = "Kosullu Basarili";
+                }
+                else if (SonucNotu >= 40 && SonucNotu < 50)
+                {
+                    HarfNotu = HarfNotlari.FD;
+                    basari_durumu = "Basarisiz";
+                }
+                else
+                {
+                    HarfNotu = HarfNotlari.FF;
+                    basari_durumu = "Basarisiz";
+                }
+            }
+            else if (YoklamaDurumu == 0) 
+            {
+                HarfNotu = HarfNotlari.FF;
+                basari_durumu = "Basarisiz";
+            }
 		}
 	}
 
