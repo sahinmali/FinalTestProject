@@ -1,0 +1,7 @@
+﻿@using FinalTestProject.Services
+<!-- LogoutComponent.razor -->
+@inherits ComponentBase
+
+@inject LogoutService LogoutService
+
+<button @onclick="LogoutService.Logout">Logout</button>

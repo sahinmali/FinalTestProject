@@ -3,6 +3,7 @@ using FinalTestProject.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Components;
 using static FinalTestProject.Models.Constants;
+using Microsoft.AspNetCore.Components.Authorization;
 
 namespace FinalTestProject.Components.Pages
 {
@@ -46,7 +47,7 @@ namespace FinalTestProject.Components.Pages
             if (_context is not null) await _context.DisposeAsync();
         }
 
-        protected void LoginControl()
+        protected async Task LoginControl()
         {
             var credentials = ValidateCredentials(UserKimlikNo, Password);
             errorMessage = "";

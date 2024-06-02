@@ -1,5 +1,8 @@
 using FinalTestProject.Components;
 using FinalTestProject.Models.Accounts;
+using FinalTestProject.Services;
+using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -15,6 +18,10 @@ builder.Services.AddHttpContextAccessor();
 
 // Register Session State service
 builder.Services.AddScoped<FinalTestProject.Services.SessionState>();
+
+//Logout servisinin eklenmesi
+builder.Services.AddScoped<FinalTestProject.Services.LogoutService>();
+
 
 // Session servisini ekleyin
 builder.Services.AddSession(options =>
@@ -51,7 +58,7 @@ app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseAntiforgery();
 
-// Session'� kullan�labilir hale getirin
+// Session'i kullanilabilir hale getirin
 app.UseSession();
 
 app.MapRazorComponents<App>()
