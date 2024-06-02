@@ -1,4 +1,6 @@
-﻿namespace FinalTestProject.Services
+﻿using Microsoft.AspNetCore.Components;
+
+namespace FinalTestProject.Services
 {
     public class SessionState
     {
@@ -6,7 +8,7 @@
         public string Ad { get; set; }
         public string UserType { get; set; }
 
-        //public bool IsAuthenticated { get; set; }
+        public bool IsAuthenticated => !string.IsNullOrEmpty(UserTCKimlikNo);
 
         public void ClearSession()
         {

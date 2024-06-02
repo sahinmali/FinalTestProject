@@ -1,108 +1,120 @@
 @inherits LayoutComponentBase
 @page "/Pages/IdareciDersAtama"
 @using FinalTestProject.Data
+@using FinalTestProject.Services
 @using Microsoft.EntityFrameworkCore
 
-<div class="idareci-layout">
+@inject SessionState SessionState
+
+@if (SessionState.IsAuthenticated)
+{
+    <div class="idareci-layout">
     @inject IDbContextFactory<UbysSystemDbContext> UbysSystemDbContext;
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <span class="navbar-brand">IdareciPage</span>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <NavLink class="nav-link" href="/IdareciLayout">Home</NavLink>
-                </li>
-                <li class="nav-item">
-                    <NavLink class="nav-link" href="/Pages/IdareciDersAtama">Ders Atama</NavLink>
-                </li>
-                <li class="nav-item">
-                    <LogoutComponent />
-                </li>
-            </ul>
-        </div>
-    </nav>
-    <!-- Common header or navigation -->
-    <header>
-        <h3>Secilen Ogretim Elemani</h3>
-    </header>
-    <div class="d-grid gap-2 col-6 mx-auto mt-2">
-        <Dropdown Direction="DropdownDirection.DropupCentered">
-            <DropdownToggleButton Color="ButtonColor.Light">@buttonText</DropdownToggleButton>
-            <DropdownMenu>
-                @foreach (var ogretimelemani in OgretimElemaniList)
-                {
-                    <DropdownItem @onclick="() => OnHesapSelected(ogretimelemani.TCKimlikNo)" Type="ButtonType.Button">
-                        @ogretimelemani.Ad</DropdownItem>
-                }
-            </DropdownMenu>
-        </Dropdown>
-    </div>
-    @if (_IsOESelected && selectedOE != null)
-    {
-        @if (@OgretimElemaniList is not null && @OgretimElemaniList.Count > 0)
-        {
-            <div class="table-responsive">
-                <table class="table table-striped table-hover table-bordered table-light border-dark">
-                    <thead>
-                        <tr>
-                            <th scope="col">TCKimlikNo</th>
-                            <th scope="col">Ad</th>
-                            <th scope="col">UyelikType</th>
-                            <th scope="col">SecilmisDersler</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <th scope="row">@selectedOE.TCKimlikNo</th>
-                            <td>@selectedOE.Ad</td>
-                            <td>@selectedOE.UyelikType</td>
-                            <td>@string.Join(",", @selectedOE.SecilmisDersler)</td>
-                        </tr>
-                    </tbody>
-                </table>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <span class="navbar-brand">IdareciPage</span>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <NavLink class="nav-link" href="/IdareciLayout">Home</NavLink>
+                    </li>
+                    <li class="nav-item">
+                        <NavLink class="nav-link" href="/Pages/IdareciDersAtama">Ders Atama</NavLink>
+                    </li>
+                    <li class="nav-item">
+                        <LogoutComponent />
+                    </li>
+                </ul>
             </div>
-
-            <div>
-                <!-- Input area and button -->
-                <div class="input-group mb-3">
-                    <input type="text" class="form-control" placeholder="Enter Ders" @bind="@newDers" />
-                    <div class="input-group-append">
-                        <button class="btn btn-primary" @onclick="UpdateOE">Add Ders</button>
-                    </div>
-                </div>
-
-                <!-- Table for displaying ders data -->
+        </nav>
+        <!-- Common header or navigation -->
+        <header>
+            <h3>Secilen Ogretim Elemani</h3>
+        </header>
+        <div class="d-grid gap-2 col-6 mx-auto mt-2">
+            <Dropdown Direction="DropdownDirection.DropupCentered">
+                <DropdownToggleButton Color="ButtonColor.Light">@buttonText</DropdownToggleButton>
+                <DropdownMenu>
+                    @foreach (var ogretimelemani in OgretimElemaniList)
+                    {
+                        <DropdownItem @onclick="() => OnHesapSelected(ogretimelemani.TCKimlikNo)" Type="ButtonType.Button">
+                            @ogretimelemani.Ad
+                        </DropdownItem>
+                    }
+                </DropdownMenu>
+            </Dropdown>
+        </div>
+        @if (_IsOESelected && selectedOE != null)
+        {
+            @if (@OgretimElemaniList is not null && @OgretimElemaniList.Count > 0)
+            {
                 <div class="table-responsive">
-                    <table class="table table-striped table-hover table-bordered">
+                    <table class="table table-striped table-hover table-bordered table-light border-dark">
                         <thead>
                             <tr>
-                                <th scope="col">Ders Adi</th>
-                                <th scope="col">Ders Kodu</th>
-                                <!-- Add other columns as needed -->
+                                <th scope="col">TCKimlikNo</th>
+                                <th scope="col">Ad</th>
+                                <th scope="col">UyelikType</th>
+                                <th scope="col">SecilmisDersler</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var ders in DersList)
-                            {
-                                @if (ders.OgretimElemaniTc == null)
-                                {
-                                    <tr>
-                                        <td>@ders.DersAdi</td>
-                                        <td>@ders.DersKodu</td>
-                                        <!-- Add other columns as needed -->
-                                    </tr>
-                                }
-                            }
+                            <tr>
+                                <th scope="row">@selectedOE.TCKimlikNo</th>
+                                <td>@selectedOE.Ad</td>
+                                <td>@selectedOE.UyelikType</td>
+                                <td>@string.Join(",", @selectedOE.SecilmisDersler)</td>
+                            </tr>
                         </tbody>
                     </table>
                 </div>
-            </div>
-        }
-    }
 
-</div>
+                <div>
+                    <!-- Input area and button -->
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" placeholder="Enter Ders" @bind="@newDers" />
+                        <div class="input-group-append">
+                            <button class="btn btn-primary" @onclick="UpdateOE">Add Ders</button>
+                        </div>
+                    </div>
+
+                    <!-- Table for displaying ders data -->
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover table-bordered">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Ders Adi</th>
+                                    <th scope="col">Ders Kodu</th>
+                                    <!-- Add other columns as needed -->
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var ders in DersList)
+                                {
+                                    @if (ders.OgretimElemaniTc == null)
+                                    {
+                                        <tr>
+                                            <td>@ders.DersAdi</td>
+                                            <td>@ders.DersKodu</td>
+                                            <!-- Add other columns as needed -->
+                                        </tr>
+                                    }
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            }
+        }
+
+    </div>
+}
+else
+{
+    <Login />
+}
+

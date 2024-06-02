@@ -2,87 +2,94 @@
 @page "/Pages/OgrenciDers"
 @using FinalTestProject.Models.Accounts
 
-<div class="ogrenci-layout">
+@if (SessionState.IsAuthenticated)
+{
+    <div class="ogrenci-layout">
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <span class="navbar-brand">OgrenciPage</span>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <NavLink class="nav-link" href="/OgrenciLayout">Home</NavLink>
-                </li>
-                <li class="nav-item">
-                    <NavLink class="nav-link" href="/Pages/OgrenciDers">Dersler</NavLink>
-                </li>
-                <li class="nav-item">
-                    <NavLink class="nav-link" href="/Pages/OgrenciDersSecimi">Ders Secimi</NavLink>
-                </li>
-                <li class="nav-item">
-                    <LogoutComponent />
-                </li>
-            </ul>
-        </div>
-    </nav>
-    <!-- Common header or navigation -->
-    <header>
-        <h1>Ders Goruntuleme here!</h1>
-        <!-- Add any other user-specific header content here -->
-    </header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <span class="navbar-brand">OgrenciPage</span>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <NavLink class="nav-link" href="/OgrenciLayout">Home</NavLink>
+                    </li>
+                    <li class="nav-item">
+                        <NavLink class="nav-link" href="/Pages/OgrenciDers">Dersler</NavLink>
+                    </li>
+                    <li class="nav-item">
+                        <NavLink class="nav-link" href="/Pages/OgrenciDersSecimi">Ders Secimi</NavLink>
+                    </li>
+                    <li class="nav-item">
+                        <LogoutComponent />
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- Common header or navigation -->
+        <header>
+            <h1>Ders Goruntuleme here!</h1>
+            <!-- Add any other user-specific header content here -->
+        </header>
 
-    <!-- Hata mesajýný göstermek için eklenen kýsým -->
-    @if (!string.IsNullOrEmpty(errorMessage))
-    {
-        <div style="color: red; margin-top: 20px;" class="d-flex justify-content-center">
-            @errorMessage
-        </div>
-    }
-
-    <text> &nbsp; &nbsp; &nbsp;</text>
-
-    @if (Ogrenci is not null)
-    {
-        <h2>@Ogrenci.Ad dersleri:</h2>
-
-        @if (TanimliDersNotlari != null && TanimliDersNotlari.Any())
+        <!-- Hata mesajýný göstermek için eklenen kýsým -->
+        @if (!string.IsNullOrEmpty(errorMessage))
         {
-            <div class="table-responsive">
-                <table class="table table-striped table-hover table-bordered table-light border-dark">
-                    <thead>
-                        <tr>
-                            <th scope="col">Ders Kodu</th>
-                            <th scope="col">Ders Adý</th>
-                            <td scope="col">Vize Notu</td>
-                            <th scope="col">Final Notu</th>
-                            <th scope="col">Harf Notu</th>
-                            <th scope="col">Yoklama Durumu</th>
-                            <th scope="col">Baþarý Durumu</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        @foreach (var ders in TanimliDersNotlari)
-                        {
-                            <tr>
-                                <td>@ders.DersKodu</td>
-                                <td>@ders.Ders.DersAdi</td>
-                                <td>@ders.AraSinav.ogr_not</td>
-                                <td>@ders.FinalSinav.ogr_not</td>
-                                <td>@ders.HarfNotu</td>
-                                <td>@(ders.YoklamaDurumu == 1 ? "Devamlý" : "Devamsýz")</td>
-                                <td>@ders.basari_durumu</td>
-                            </tr>
-                        }
-                    </tbody>
-                </table>
+            <div style="color: red; margin-top: 20px;" class="d-flex justify-content-center">
+                @errorMessage
             </div>
         }
-        else
-        {
-            <p>Henuz size bir ders atanmamis...</p>
-        }
-    }
 
-</div>
+        <text> &nbsp; &nbsp; &nbsp;</text>
+
+        @if (Ogrenci is not null)
+        {
+            <h2>@Ogrenci.Ad dersleri:</h2>
+
+            @if (TanimliDersNotlari != null && TanimliDersNotlari.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover table-bordered table-light border-dark">
+                        <thead>
+                            <tr>
+                                <th scope="col">Ders Kodu</th>
+                                <th scope="col">Ders Adý</th>
+                                <td scope="col">Vize Notu</td>
+                                <th scope="col">Final Notu</th>
+                                <th scope="col">Harf Notu</th>
+                                <th scope="col">Yoklama Durumu</th>
+                                <th scope="col">Baþarý Durumu</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var ders in TanimliDersNotlari)
+                            {
+                                <tr>
+                                    <td>@ders.DersKodu</td>
+                                    <td>@ders.Ders.DersAdi</td>
+                                    <td>@ders.AraSinav.ogr_not</td>
+                                    <td>@ders.FinalSinav.ogr_not</td>
+                                    <td>@ders.HarfNotu</td>
+                                    <td>@(ders.YoklamaDurumu == 1 ? "Devamlý" : "Devamsýz")</td>
+                                    <td>@ders.basari_durumu</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <p>Henuz size bir ders atanmamis...</p>
+            }
+        }
+
+    </div>
+}
+else
+{
+    <Login />
+}

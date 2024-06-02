@@ -1,35 +1,48 @@
 @inherits LayoutComponentBase
 @page "/Pages/OENotGir"
+@using FinalTestProject.Services
 
-<div class="ogretimElemani-layout">
+@inject SessionState SessionState
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <span class="navbar-brand">OgretimElemaniPage</span>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <NavLink class="nav-link" href="/OgretimElemaniLayout">Home</NavLink>
-                </li>
-                <li class="nav-item">
-                    <NavLink class="nav-link" href="/Pages/OENotGir">Not Girme</NavLink>
-                </li>
-                <li class="nav-item">
-                    <NavLink class="nav-link" href="/Pages/OgretimElemaniDersGor">Dersleri Gör</NavLink>
-                </li>
-                <li class="nav-item">
-                    <LogoutComponent />
-                </li>
-            </ul>
-        </div>
-    </nav>
-    <!-- Common header or navigation -->
-    <header>
-        <h1>Not Girme here!</h1>
-        <!-- Add any other user-specific header content here -->
-    </header>
+@if (SessionState.IsAuthenticated)
+{
+    <div class="ogretimElemani-layout">
 
-</div>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <span class="navbar-brand">OgretimElemaniPage</span>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <NavLink class="nav-link" href="/OgretimElemaniLayout">Home</NavLink>
+                    </li>
+                    <li class="nav-item">
+                        <NavLink class="nav-link" href="/Pages/OENotGir">Not Girme</NavLink>
+                    </li>
+                    <li class="nav-item">
+                        <NavLink class="nav-link" href="/Pages/OgretimElemaniDersGor">Dersleri Gör</NavLink>
+                    </li>
+                    <li class="nav-item">
+                        <LogoutComponent />
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- Common header or navigation -->
+        <header>
+            <h1>Not Girme here!</h1>
+            <!-- Add any other user-specific header content here -->
+        </header>
+
+    </div>
+}
+else
+{
+    <Login />
+}
+
+
+

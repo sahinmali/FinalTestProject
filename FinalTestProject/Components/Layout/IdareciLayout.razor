@@ -1,46 +1,56 @@
 @inherits LayoutComponentBase
 @page "/IdareciLayout"
+@using FinalTestProject.Components.Pages
 
 @inject FinalTestProject.Services.SessionState SessionState
 
-<div class="idareci-layout">
+@if (SessionState.IsAuthenticated)
+{
+    <div class="idareci-layout">
 
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <span class="navbar-brand">IdareciPage</span>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
-            aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav">
-                <li class="nav-item">
-                    <NavLink class="nav-link" href="/IdareciLayout">Home</NavLink>
-                </li>
-                <li class="nav-item">
-                    <NavLink class="nav-link" href="/Pages/IdareciDersAtama">Ders Atama</NavLink>
-                </li>
-                <li class="nav-item">
-                    <LogoutComponent />
-                </li>
-            </ul>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <span class="navbar-brand">IdareciPage</span>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav">
+                    <li class="nav-item">
+                        <NavLink class="nav-link" href="/IdareciLayout">Home</NavLink>
+                    </li>
+                    <li class="nav-item">
+                        <NavLink class="nav-link" href="/Pages/IdareciDersAtama">Ders Atama</NavLink>
+                    </li>
+                    <li class="nav-item">
+                        <LogoutComponent />
+                    </li>
+                </ul>
+            </div>
+        </nav>
+        <!-- Common header or navigation -->
+        <!-- Common header or navigation -->
+        <header>
+            <h1>Welcome, @SessionState.Ad!</h1>
+            <p>Your UserType: @SessionState.UserType</p>
+            <p>User ID: @SessionState.UserTCKimlikNo</p>
+            <!-- Add any other user-specific header content here -->
+        </header>
+
+        <!-- Main content area -->
+        <div class="content">
+            @Body <!-- Render the page content here -->
         </div>
-    </nav>
-    <!-- Common header or navigation -->
-    <!-- Common header or navigation -->
-    <header>
-        <h1>Welcome, @SessionState.Ad!</h1>
-        <p>Your UserType: @SessionState.UserType</p>
-        <p>User ID: @SessionState.UserTCKimlikNo</p>
-        <!-- Add any other user-specific header content here -->
-    </header>
 
-    <!-- Main content area -->
-    <div class="content">
-        @Body <!-- Render the page content here -->
+        <!-- Common footer or other shared components -->
+        <footer>
+            © 2024 My Awesome App
+        </footer>
     </div>
+}
+else
+{
+    <Login />
+}
 
-    <!-- Common footer or other shared components -->
-    <footer>
-        © 2024 My Awesome App
-    </footer>
-</div>
+
