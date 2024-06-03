@@ -72,7 +72,7 @@ namespace FinalTestProject.Models
                 else if (SonucNotu >= 55 && SonucNotu < 60)
                 {
                     HarfNotu = HarfNotlari.DC;
-                    basari_durumu = "Basarili";
+                    basari_durumu = "Kosullu Basarili";
                 }
                 else if (SonucNotu >= 50 && SonucNotu < 55)
                 {

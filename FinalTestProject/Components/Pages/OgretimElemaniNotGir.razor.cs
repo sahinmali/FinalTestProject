@@ -153,6 +153,7 @@ namespace FinalTestProject.Components.Pages
                 {
                     try
                     {
+                        secilenDersNotu.HesaplaGecmeNotu();
                         // Ders notunu veritabanýnda güncelle
                         DbContext.DersNotu.Update(secilenDersNotu);
                         await DbContext.SaveChangesAsync();
