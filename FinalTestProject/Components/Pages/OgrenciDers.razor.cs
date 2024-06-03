@@ -27,12 +27,12 @@ namespace FinalTestProject.Components.Pages
 
         public async Task GetOgrenci()
         {
-            if (SessionState.UserTCKimlikNo is not null && DbContext is not null)
+            if (SessionState.AssignedHesap is not null && DbContext is not null)
             {
                 try
                 {
                     Ogrenci = await DbContext.Ogrenci
-                        .FirstOrDefaultAsync(d => d.TCKimlikNo.ToString() == SessionState.UserTCKimlikNo);
+                        .FirstOrDefaultAsync(oe => oe.TCKimlikNo == SessionState.AssignedHesap.TCKimlikNo);
 
                     if (Ogrenci is not null)
                     {

@@ -1,3 +1,4 @@
+using FinalTestProject.Data;
 using FinalTestProject.Models;
 using FinalTestProject.Services;
 using Microsoft.AspNetCore.Components;
@@ -7,9 +8,14 @@ namespace FinalTestProject.Components.Pages
 {
     public partial class OgrenciDersSecimi
     {
+        [Inject] private SessionState SessionState { get; set; }
         [Inject] private UbysSystemDbContext DbContext { get; set; }
 
+        private DersSecimi DersSecimi { get; set; }
+        private Ogrenci AssignedOgrenci { get; set; }
+
         private List<Ders>? TanimliDersler { get; set; } = [];
+        private string errorMessage;
 
         protected override async Task OnInitializedAsync()
         {
@@ -22,7 +28,16 @@ namespace FinalTestProject.Components.Pages
         {
             if (DbContext is not null)
             {
-                TanimliDersler = await DbContext.Ders.ToListAsync();
+                AssignedOgrenci = SessionState.AssignedHesap as Ogrenci;
+
+                TanimliDersler = await DbContext.Ders
+                    .Where(d => d.Yariyil == AssignedOgrenci.Yariyil)
+                    .ToListAsync();
+
+                TanimliDersler.ForEach(d =>
+                {
+                    Console.WriteLine(d.DersAdi);
+                });
             }
         }
     }

@@ -61,9 +61,7 @@ namespace FinalTestProject.Components.Pages
             {
                 try
                 {
-                    SessionState.UserTCKimlikNo = credentials.TCKimlikNo.ToString();
-                    SessionState.UserType = credentials.UyelikType.ToString();
-                    SessionState.Ad = credentials.Ad;
+                    SessionState.AssignedHesap = credentials;
                 }
                 catch (Exception ex)
                 {

@@ -1,20 +1,17 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿
+using FinalTestProject.Data;
 
 namespace FinalTestProject.Services
 {
     public class SessionState
     {
-        public string UserTCKimlikNo { get; set; }
-        public string Ad { get; set; }
-        public string UserType { get; set; }
+        public Hesap? AssignedHesap { get; set; }
 
-        public bool IsAuthenticated => !string.IsNullOrEmpty(UserTCKimlikNo);
+        public bool IsAuthenticated => AssignedHesap != null;
 
         public void ClearSession()
         {
-            UserTCKimlikNo = null;
-            UserType = null;
-            Ad = null;
+            AssignedHesap = null;
         }
     }
 }

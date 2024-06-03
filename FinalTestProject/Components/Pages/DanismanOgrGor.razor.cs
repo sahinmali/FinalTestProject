@@ -30,12 +30,12 @@ namespace FinalTestProject.Components.Pages
 
         public async Task GetDanisman()
         {
-            if (SessionState.UserTCKimlikNo is not null && DbContext is not null)
+            if (SessionState.AssignedHesap is not null && DbContext is not null)
             {
                 try
                 {
                     Danisman = await DbContext.Danisman
-                        .FirstOrDefaultAsync(d => d.TCKimlikNo.ToString() == SessionState.UserTCKimlikNo);
+                        .FirstOrDefaultAsync(d => d.TCKimlikNo == SessionState.AssignedHesap.TCKimlikNo);
 
                     if (Danisman is not null)
                     {

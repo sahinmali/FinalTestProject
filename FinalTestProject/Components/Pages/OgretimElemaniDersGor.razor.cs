@@ -28,12 +28,12 @@ namespace FinalTestProject.Components.Pages
 
         public async Task GetOgrEleman()
         {
-            if (SessionState.UserTCKimlikNo is not null && DbContext is not null)
+            if (SessionState.AssignedHesap is not null && DbContext is not null)
             {
                 try
                 {
                     OgretimEleman = await DbContext.OgretimElemani
-                        .FirstOrDefaultAsync(d => d.TCKimlikNo.ToString() == SessionState.UserTCKimlikNo);
+                        .FirstOrDefaultAsync(oe => oe.TCKimlikNo == SessionState.AssignedHesap.TCKimlikNo);
 
                     if (OgretimEleman is not null)
                     {
