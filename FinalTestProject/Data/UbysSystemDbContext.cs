@@ -18,9 +18,9 @@ public class UbysSystemDbContext : DbContext
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<Ogrenci>()
-            .HasOne(o => o.OgrDanisman)  // Ogrenci s�n�f�n�n Danisman navigasyon �zelli�ine ba�lan�r
-            .WithMany()                   // Danisman s�n�f�n�n herhangi bir �zelli�iyle e�le�tirilir (Birden �ok ��renci bir dan��mana sahip olabilir)
-            .HasForeignKey(o => o.OgrenciDanismani); // Ogrenci s�n�f�ndaki OgrenciDanismani foreign key ile e�le�tirilir
+            .HasOne(o => o.OgrDanisman)  
+            .WithMany()                    
+            .HasForeignKey(o => o.OgrenciDanismani); 
         modelBuilder.Entity<Ogrenci>()
             .Property(e => e.SecilmisDersler)
             .HasConversion(new StringListConverter());
