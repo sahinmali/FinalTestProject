@@ -32,6 +32,12 @@ namespace FinalTestProject.Components.Pages
                 OgretimElemaniList = await _context.OgretimElemani.ToListAsync();
 
                 DersList = await _context.Ders.ToListAsync();
+
+                // DersList'in null olmadýðýný kontrol et -- bunu niye ekledi onu da bilmiyorum
+                if (DersList == null)
+                {
+                    DersList = new List<Ders>();
+                }
             }
         }
 
@@ -86,7 +92,7 @@ namespace FinalTestProject.Components.Pages
 
         private Ders GetDers(string DersKodu)
         {
-            return DersList.FirstOrDefault(h => h.DersKodu == DersKodu);
+            return DersList?.FirstOrDefault(h => h.DersKodu == DersKodu);
         }
 
         private int GetTotalSaatCount()
@@ -95,7 +101,10 @@ namespace FinalTestProject.Components.Pages
             List<Ders> dersler = GetDersList(selectedOE);
             foreach (var item in dersler)
             {
-                totalSaatCount += item.SaatCount;
+                if (item != null)
+                {
+                    totalSaatCount += item.SaatCount;
+                }
             }
             return totalSaatCount;
         }
@@ -106,7 +115,11 @@ namespace FinalTestProject.Components.Pages
 
             foreach (var item in oe.SecilmisDersler)
             {
-                atanmisDersler.Add(GetDers(item));
+                Ders ders = GetDers(item); //buna gerek var mi cidden bilmiyorum
+                if (ders != null)
+                {
+                    atanmisDersler.Add(ders);
+                }
             }
             return atanmisDersler;
         }
