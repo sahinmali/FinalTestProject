@@ -15,12 +15,13 @@ namespace FinalTestProject.Components.Pages
         private Ogrenci AssignedOgrenci { get; set; }
 
         private List<Ders>? TanimliDersler { get; set; } = [];
-        private string errorMessage;
 
         private string ButtonText = "Add ";
 
         private bool IsAKTSExceeded = false;
         private bool IsSecimSent = false;
+
+        private string errorMessage = "";
 
         protected override async Task OnInitializedAsync()
         {
@@ -80,6 +81,7 @@ namespace FinalTestProject.Components.Pages
             {
                 _context.DersSecimi.Add(DersSecimi);
                 IsSecimSent = true;
+                errorMessage = "Ders secimi basirili bir sekilde danismana gonderildi!";
             }
             await _context.SaveChangesAsync();
             DersSecimi = null;

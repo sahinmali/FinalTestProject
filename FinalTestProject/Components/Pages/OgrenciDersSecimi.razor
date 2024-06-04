@@ -36,6 +36,13 @@
         <header>
             <h1>Ders Secimi here!</h1>
 
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <div style="color: red; margin-top: 20px;" class="d-flex justify-content-center">
+                    @errorMessage
+                </div>
+            }
+
             @if (TanimliDersler != null && (TanimliDersler.Any() || DersSecimi is not null))
             {
                 <div class="table-responsive">

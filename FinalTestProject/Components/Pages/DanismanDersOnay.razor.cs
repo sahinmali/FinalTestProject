@@ -16,7 +16,7 @@ namespace FinalTestProject.Components.Pages
         private List<Ogrenci> OgrenciList { get; set; }
         private List<Ders> DersList { get; set; }
 
-        private string errorMessage;
+        private string errorMessage = "";
 
         protected override async Task OnInitializedAsync()
         {
@@ -89,14 +89,19 @@ namespace FinalTestProject.Components.Pages
 
             await _context.SaveChangesAsync();
 
+            errorMessage = $"{ogrenci.Ad} ogrencisinin {ogrenci.Yariyil}. yariyili icin ders kaydi basariyla guncellendi!";
+
         }
         private async Task OnClickDersRet(DersSecimi dersSecimi)
         {
+            var ogrenci = GetOgrenci(dersSecimi);
             DersSecimi.Remove(dersSecimi);
             _context.DersSecimi.Remove(dersSecimi);
             DersSecimi.Remove(dersSecimi);
 
             await _context.SaveChangesAsync();
+
+            errorMessage = $"{ogrenci.Ad} ogrencisinin {ogrenci.Yariyil}. yariyili icin olusturdugu ders kaydi reddedildi!";
         }
     }
 }

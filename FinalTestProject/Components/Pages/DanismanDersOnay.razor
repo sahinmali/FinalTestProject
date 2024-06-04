@@ -35,6 +35,14 @@
         <!-- Common header or navigation -->
         <header>
             <h1>Danisman Ders Onay here!</h1>
+
+            @if (!string.IsNullOrEmpty(errorMessage))
+            {
+                <div style="color: red; margin-top: 20px;" class="d-flex justify-content-center">
+                    @errorMessage
+                </div>
+            }
+
             @if(DersSecimi.Count > 0)
             {
                 @foreach (var ders in DersSecimi)
