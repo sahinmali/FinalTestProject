@@ -46,7 +46,6 @@ namespace FinalTestProject.Components.Pages
                     SecilenDersler = [],
                     DersList = []
                 };
-            AssignedOgrenci.SecilmisDersler ??= [];
 
             if (GetToplamAKTS() + ders.AKTS > ValidValues.AKTSLimit)
             {
@@ -74,12 +73,12 @@ namespace FinalTestProject.Components.Pages
             });
             return toplamAKTS;
         }
+
         private async Task OnClickConfirmDersSecimi()
         {
             if (_context is not null)
             {
                 _context.DersSecimi.Add(DersSecimi);
-                _context.Ogrenci.Update(AssignedOgrenci);
                 IsSecimSent = true;
             }
             await _context.SaveChangesAsync();
