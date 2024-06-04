@@ -35,6 +35,15 @@
         <header>
             <h3>Secilen Ogretim Elemani</h3>
         </header>
+
+        
+        @if (!string.IsNullOrEmpty(errorMessage))
+        {
+            <div style="color: red; margin-top: 20px;" class="d-flex justify-content-center">
+                @errorMessage
+            </div>
+        }
+
         <div class="d-grid gap-2 col-6 mx-auto mt-2">
             <Dropdown Direction="DropdownDirection.DropupCentered">
                 <DropdownToggleButton Color="ButtonColor.Light">@buttonText</DropdownToggleButton>
@@ -91,7 +100,7 @@
                                 <tr>
                                     <th scope="col">Ders Adi</th>
                                     <th scope="col">Ders Kodu</th>
-                                    <!-- Add other columns as needed -->
+                                    <th scope="col">Haftalik Ders Saati</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -102,7 +111,7 @@
                                         <tr>
                                             <td>@ders.DersAdi</td>
                                             <td>@ders.DersKodu</td>
-                                            <!-- Add other columns as needed -->
+                                            <td>@ders.SaatCount</td>                                           
                                         </tr>
                                     }
                                 }

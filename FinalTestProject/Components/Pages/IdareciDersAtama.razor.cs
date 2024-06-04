@@ -17,6 +17,8 @@ namespace FinalTestProject.Components.Pages
         public bool EditRecord { get; set; }
         private string newDers = "";
 
+        private string errorMessage;
+
         protected override async Task OnInitializedAsync()
         {
             _IsOESelected = false;
@@ -33,7 +35,7 @@ namespace FinalTestProject.Components.Pages
 
                 DersList = await _context.Ders.ToListAsync();
 
-                // DersList'in null olmadýðýný kontrol et -- bunu niye ekledi onu da bilmiyorum
+                
                 if (DersList == null)
                 {
                     DersList = new List<Ders>();
@@ -53,7 +55,11 @@ namespace FinalTestProject.Components.Pages
         {
             if (selectedOE.SecilmisDersler.Contains(newDers) || !IsDersExist(newDers)) return;
             Ders targetDers = GetDers(newDers);
-            if (SaatAsildiMi(targetDers)) return;
+            if (SaatAsildiMi(targetDers))
+            {
+                errorMessage = $"Ogretim elemaninin haftalik ders saati 20'yi  asmamalidir! Ogretim Elemaninin guncel haftalik saati: {GetTotalSaatCount()}";
+                return; 
+            }
 
             _context ??= await UbysSystemDbContext.CreateDbContextAsync();
             if (_context is not null)
@@ -115,7 +121,7 @@ namespace FinalTestProject.Components.Pages
 
             foreach (var item in oe.SecilmisDersler)
             {
-                Ders ders = GetDers(item); //buna gerek var mi cidden bilmiyorum
+                Ders ders = GetDers(item); 
                 if (ders != null)
                 {
                     atanmisDersler.Add(ders);
@@ -124,7 +130,7 @@ namespace FinalTestProject.Components.Pages
             return atanmisDersler;
         }
 
-        //bunu tekrar dusun
+        
         public void VizeNotGir(float not, DersNotu ders_not)
         {
             ders_not.setAraSinav(not);
