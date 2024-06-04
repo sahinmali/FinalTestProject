@@ -46,9 +46,10 @@ public class UbysSystemDbContext : DbContext
         modelBuilder.Entity<Ders>()
             .Property(e => e.OgrenciList)
             .HasConversion(new StringListConverter());
-        modelBuilder.Entity<DersSecimi>().HasNoKey()
+        modelBuilder.Entity<DersSecimi>()
             .Property(e => e.SecilenDersler)
             .HasConversion(new StringListConverter());
+        modelBuilder.Entity<DersSecimi>().HasKey(o => o.OgrenciKimlikNo);
 
         modelBuilder.Entity<DersNotu>(entity =>
         {
@@ -91,5 +92,6 @@ public class UbysSystemDbContext : DbContext
     public DbSet<Ogrenci> Ogrenci { get; set; }
     public DbSet<OgretimElemani> OgretimElemani { get; set; }
     public DbSet<DersNotu> DersNotu { get; set; }
+    public DbSet<DersSecimi> DersSecimi { get; set; }
 
 }

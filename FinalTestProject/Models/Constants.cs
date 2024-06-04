@@ -3,6 +3,7 @@
 	public class ValidValues
 	{
 		public const int LimitSaatCount = 20;
+		public const int AKTSLimit = 45;
 	}
 
 	public class Constants

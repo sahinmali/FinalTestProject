@@ -1,9 +1,9 @@
 @inherits LayoutComponentBase
 @page "/Pages/DanismanDersOnay"
 @using FinalTestProject.Services
+@using Microsoft.EntityFrameworkCore
 
-@inject SessionState SessionState
-
+@inject IDbContextFactory<UbysSystemDbContext> UbysSystemDbContext;
 
 @if (SessionState.IsAuthenticated)
 {
@@ -35,7 +35,42 @@
         <!-- Common header or navigation -->
         <header>
             <h1>Danisman Ders Onay here!</h1>
-            <!-- Add any other user-specific header content here -->
+            @if(DersSecimi.Count > 0)
+            {
+                @foreach (var ders in DersSecimi)
+                {
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover table-bordered table-light border-dark">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Ogrenci Adi</th>
+                                    <th scope="col">Ogrenci Dersleri</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>@GetOgrenci(ders).Ad</td>
+                                    <td>
+                                        <ul>
+                                            @foreach (var dersAdi in GetDersNames(ders.SecilenDersler))
+                                            {
+                                                <li>@dersAdi</li>
+                                            }
+                                        </ul>
+                                    </td>
+                                    <div class="d-grid gap-2 d-md-block mt-2">
+                                        <Button Type="ButtonType.Submit" Color="ButtonColor.Success" @onclick="() => OnClickDersOnay(ders)"> Kabul Et</Button>
+                                    </div>
+                                    <div class="d-grid gap-2 d-md-block mt-2">
+                                        <Button Type="ButtonType.Submit" Color="ButtonColor.Danger" @onclick="() => OnClickDersRet(ders)"> Reddet</Button>
+                                    </div>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                }
+
+            }
         </header>
 
     </div>

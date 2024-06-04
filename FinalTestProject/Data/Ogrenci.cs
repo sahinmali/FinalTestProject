@@ -11,7 +11,6 @@ namespace FinalTestProject.Data
         public Danisman OgrDanisman { get; set; }
         public int? Sinif { get; set; }
         public int? Donem { get; set; }
-
         public int Yariyil { get; set; }
     }
 

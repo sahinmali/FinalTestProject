@@ -36,7 +36,7 @@
         <header>
             <h1>Ders Secimi here!</h1>
 
-            @if (TanimliDersler != null && TanimliDersler.Any())
+            @if (TanimliDersler != null && (TanimliDersler.Any() || DersSecimi is not null))
             {
                 <div class="table-responsive">
                     <table class="table table-striped table-hover table-bordered table-light border-dark">
@@ -44,9 +44,10 @@
                             <tr>
                                 <th scope="col">Ders Kodu</th>
                                 <th scope="col">Ders Adi</th>
-                                <th scope="col">Kredi</th>
+                                <th scope="col">AKTS</th>
                                 <th scope="col">Ders Saati</th>
                                 <th scope="col">Dersin Yariyili</th>
+                                <th scope="col">AddStatus</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -55,14 +56,57 @@
                                 <tr>
                                     <td>@ders.DersKodu</td>
                                     <td>@ders.DersAdi</td>
-                                    <td>@ders.Kredi</td>
+                                    <td>@ders.AKTS</td>
                                     <td>@ders.SaatCount</td>
                                     <td>@ders.Yariyil</td>
+                                    <div class="d-grid gap-2 d-md-block mt-2">
+                                        <Button Type="ButtonType.Submit" Color="ButtonColor.Primary" @onclick="() => OnClickAddButton(ders)" Disabled="@ders.IsDersAdded"> @(ders.IsDersAdded == true ? "Added" : "Add")</Button>
+                                    </div>
                                 </tr>
                             }
                         </tbody>
                     </table>
                 </div>
+
+
+                @if (DersSecimi is not null) { 
+                    <div class="table-responsive">
+                        <table class="table table-striped table-hover table-bordered table-light border-dark">
+                            <thead>
+                                <tr>
+                                    <th scope="col">Ders Kodu</th>
+                                    <th scope="col">Ders Adi</th>
+                                    <th scope="col">AKTS</th>
+                                    <th scope="col">Ders Saati</th>
+                                    <th scope="col">Dersin Yariyili</th>
+                                    <th scope="col">RemoveDers</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                
+                                @foreach (var ders in DersSecimi.DersList)
+                                {
+                                    <tr>
+                                        <td>@ders.DersKodu</td>
+                                        <td>@ders.DersAdi</td>
+                                        <td>@ders.AKTS</td>
+                                        <td>@ders.SaatCount</td>
+                                        <td>@ders.Yariyil</td>
+                                        <div class="d-grid gap-2 d-md-block mt-2">
+                                            <Button Type="ButtonType.Submit" Color="ButtonColor.Danger" @onclick="() => RemoveDersFromSecim(ders)"> Remove</Button>
+                                        </div>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        @if(DersSecimi.DersList.Count > 0)
+                        {
+                            <div class="d-grid gap-2 d-md-block mt-2">
+                                <Button Type="ButtonType.Submit" Color="ButtonColor.Success" @onclick="() => OnClickConfirmDersSecimi()" Disabled="@(IsAKTSExceeded || IsSecimSent)"> Danismana Gonder</Button>
+                            </div>
+                        }
+                    </div>
+                }
             }
             else
             {
