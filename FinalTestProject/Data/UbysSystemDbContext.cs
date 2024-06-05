@@ -51,6 +51,21 @@ public class UbysSystemDbContext : DbContext
             .HasConversion(new StringListConverter());
         modelBuilder.Entity<DersSecimi>().HasKey(o => o.OgrenciKimlikNo);
 
+        modelBuilder.Entity<SecilenDers>()
+            .HasKey(sd => sd.Id);
+
+        modelBuilder.Entity<SecilenDers>()
+            .HasOne<DersSecimi>()
+            .WithMany()
+            .HasForeignKey(sd => sd.TcKimlikNo)
+            .OnDelete(DeleteBehavior.Cascade);
+
+        modelBuilder.Entity<SecilenDers>()
+            .HasOne<Ders>()
+            .WithMany()
+            .HasForeignKey(sd => sd.DersKodu)
+            .OnDelete(DeleteBehavior.Cascade);
+
         modelBuilder.Entity<DersNotu>(entity =>
         {
             entity.HasKey(e => e.Id); // Primary Key
@@ -64,21 +79,21 @@ public class UbysSystemDbContext : DbContext
                   .HasForeignKey(e => e.DersKodu)
                   .OnDelete(DeleteBehavior.Restrict); // Foreign Key to Ders
 
-            // Di�er alanlar i�in kolonlar ekleyelim
+            
             entity.Property(e => e.SonucNotu).IsRequired();
             entity.Property(e => e.HarfNotu).IsRequired();
             entity.Property(e => e.YoklamaDurumu).IsRequired();
 
-            // Sinav t�r�ndeki alanlar� konfigurasyon yapal�m
+            
             entity.OwnsOne(e => e.AraSinav, sa =>
             {
-                sa.Property(p => p.yuzde).HasColumnName("AraSinavYuzde");
+                sa.Property(p => p.yuzde).HasColumnName("AraSinavYuzde").HasConversion<float>().HasDefaultValue(40.0f);
                 sa.Property(p => p.ogr_not).HasColumnName("AraSinavNot");
             });
 
             entity.OwnsOne(e => e.FinalSinav, sf =>
             {
-                sf.Property(p => p.yuzde).HasColumnName("FinalSinavYuzde");
+                sf.Property(p => p.yuzde).HasColumnName("FinalSinavYuzde").HasConversion<float>().HasDefaultValue(60.0f);
                 sf.Property(p => p.ogr_not).HasColumnName("FinalSinavNot");
             });
         });
@@ -93,5 +108,7 @@ public class UbysSystemDbContext : DbContext
     public DbSet<OgretimElemani> OgretimElemani { get; set; }
     public DbSet<DersNotu> DersNotu { get; set; }
     public DbSet<DersSecimi> DersSecimi { get; set; }
+
+    public DbSet<SecilenDers> SecilenDers { get; set; }
 
 }

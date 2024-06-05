@@ -43,7 +43,7 @@
                 </div>
             }
 
-            @if (TanimliDersler != null && (TanimliDersler.Any() || DersSecimi is not null))
+            @if (DersList != null && (DersList.Any() || DersSecimi is not null))
             {
                 <div class="table-responsive">
                     <table class="table table-striped table-hover table-bordered table-light border-dark">
@@ -58,7 +58,7 @@
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var ders in TanimliDersler)
+                            @foreach (var ders in DersList)
                             {
                                 <tr>
                                     <td>@ders.DersKodu</td>
@@ -109,7 +109,7 @@
                         @if(DersSecimi.DersList.Count > 0)
                         {
                             <div class="d-grid gap-2 d-md-block mt-2">
-                                <Button Type="ButtonType.Submit" Color="ButtonColor.Success" @onclick="() => OnClickConfirmDersSecimi()" Disabled="@(IsAKTSExceeded || IsSecimSent)"> Danismana Gonder</Button>
+                                <Button Type="ButtonType.Submit" Color="ButtonColor.Success" @onclick="() => AddDersSecimi()" Disabled="@(IsAKTSExceeded || IsSecimSent)"> Danismana Gonder</Button>
                             </div>
                         }
                     </div>

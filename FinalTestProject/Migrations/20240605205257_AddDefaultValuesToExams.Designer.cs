@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinalTestProject.Migrations
 {
     [DbContext(typeof(UbysSystemDbContext))]
-    partial class UbysSystemDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240605205257_AddDefaultValuesToExams")]
+    partial class AddDefaultValuesToExams
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.6");
@@ -272,7 +275,7 @@ namespace FinalTestProject.Migrations
                             b1.Property<float>("yuzde")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("REAL")
-                                .HasDefaultValue(40f)
+                                .HasDefaultValue(0.4f)
                                 .HasColumnName("AraSinavYuzde");
 
                             b1.HasKey("DersNotuId");
@@ -295,7 +298,7 @@ namespace FinalTestProject.Migrations
                             b1.Property<float>("yuzde")
                                 .ValueGeneratedOnAdd()
                                 .HasColumnType("REAL")
-                                .HasDefaultValue(60f)
+                                .HasDefaultValue(0.6f)
                                 .HasColumnName("FinalSinavYuzde");
 
                             b1.HasKey("DersNotuId");

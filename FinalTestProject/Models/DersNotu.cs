@@ -17,12 +17,12 @@ namespace FinalTestProject.Models
         public string? DersKodu { get; set; }
 		public Ders? Ders {  get; set; }
 
-        public Sinav AraSinav = new() { yuzde = 0.4f };
-		public Sinav FinalSinav = new() { yuzde = 0.6f };
+        public Sinav AraSinav = new Sinav() { yuzde = 0.4f };
+		public Sinav FinalSinav = new Sinav() { yuzde = 0.6f };
 		public float SonucNotu;
 		public HarfNotlari HarfNotu;
-		public int YoklamaDurumu;
-		public string basari_durumu;
+		public int YoklamaDurumu = 1;
+		public string basari_durumu = "Girilmedi";
 		
 		public void setAraSinav(float vize_not)
 		{
@@ -35,7 +35,7 @@ namespace FinalTestProject.Models
 
 		public void HesaplaGecmeNotu()
 		{
-			SonucNotu = (AraSinav.notHesapla() + FinalSinav.notHesapla())/100;
+            SonucNotu = (AraSinav.notHesapla() + FinalSinav.notHesapla());
             HesaplaHarfNotu();
         }
 

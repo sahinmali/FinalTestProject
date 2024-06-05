@@ -43,9 +43,9 @@
                 </div>
             }
 
-            @if(DersSecimi.Count > 0)
+            @if (DersSecimleriList.Count > 0)
             {
-                @foreach (var ders in DersSecimi)
+                @foreach (var ders in DersSecimleriList)
                 {
                     <div class="table-responsive">
                         <table class="table table-striped table-hover table-bordered table-light border-dark">
@@ -60,17 +60,17 @@
                                     <td>@GetOgrenci(ders).Ad</td>
                                     <td>
                                         <ul>
-                                            @foreach (var dersAdi in GetDersNames(ders.SecilenDersler))
+                                            @foreach (var dersAdi in GetDersler(ders.SecilenDersler))
                                             {
                                                 <li>@dersAdi</li>
                                             }
                                         </ul>
                                     </td>
                                     <div class="d-grid gap-2 d-md-block mt-2">
-                                        <Button Type="ButtonType.Submit" Color="ButtonColor.Success" @onclick="() => OnClickDersOnay(ders)"> Kabul Et</Button>
+                                        <Button Type="ButtonType.Submit" Color="ButtonColor.Success" @onclick="() => Onayla(ders)"> Kabul Et</Button>
                                     </div>
                                     <div class="d-grid gap-2 d-md-block mt-2">
-                                        <Button Type="ButtonType.Submit" Color="ButtonColor.Danger" @onclick="() => OnClickDersRet(ders)"> Reddet</Button>
+                                        <Button Type="ButtonType.Submit" Color="ButtonColor.Danger" @onclick="() => Reddet(ders)"> Reddet</Button>
                                     </div>
                                 </tr>
                             </tbody>

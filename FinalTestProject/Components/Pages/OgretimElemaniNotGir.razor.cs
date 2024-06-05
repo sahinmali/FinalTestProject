@@ -138,6 +138,9 @@ namespace FinalTestProject.Components.Pages
                 return;
             }
 
+            secilenDersNotu.AraSinav.yuzde = 0.4f;
+            secilenDersNotu.FinalSinav.yuzde = 0.6f;
+
             float araSinavNotu = secilenDersNotu.AraSinav.ogr_not;
             float finalSinavNotu = secilenDersNotu.FinalSinav.ogr_not;
             int yoklama = secilenDersNotu.YoklamaDurumu;
@@ -152,7 +155,7 @@ namespace FinalTestProject.Components.Pages
                         // Ders notunu veritabanýnda güncelle
                         DbContext.DersNotu.Update(secilenDersNotu);
                         await DbContext.SaveChangesAsync();
-                        errorMessage = $"{secilenDersNotu.Ogrenci.Ad}'nin Ders notu baþarýyla güncellendi!";
+                        errorMessage = $"{secilenDersNotu.Ogrenci.Ad}'nin Ders notu baþarýyla güncellendi! Sonuc: {secilenDersNotu.SonucNotu}";
                     }
                     catch (Exception ex)
                     {

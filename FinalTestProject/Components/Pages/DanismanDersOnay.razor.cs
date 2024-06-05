@@ -11,10 +11,16 @@ namespace FinalTestProject.Components.Pages
         [Inject] private SessionState SessionState { get; set; }
         [Inject] private UbysSystemDbContext _context { get; set; }
 
-        private List<DersSecimi> DersSecimi { get; set; }
+        private Danisman? Danisman { get; set; }
 
-        private List<Ogrenci> OgrenciList { get; set; }
+        private Ogrenci? SecilenOgr { get; set; }
+
+        private List<DersSecimi> DersSecimleriList { get; set; }
+
+        private List<Ogrenci> TanimliOgrencilerList { get; set; }
         private List<Ders> DersList { get; set; }
+
+        private List<Ders> SecilenDersList { get; set; } //
 
         private string errorMessage = "";
 
@@ -22,26 +28,34 @@ namespace FinalTestProject.Components.Pages
         {
             _context ??= await UbysSystemDbContext.CreateDbContextAsync();
 
-            await InitializeDersSecimleri();
-            await InitializeOgrenciList();
+            await GetDersSecimleri();
+            await GetTanimliOgrenciler();
         }
 
-        private async Task InitializeDersSecimleri()
+        private async Task GetDersSecimleri()
         {
             if (_context is not null)
             {
-                DersSecimi = await _context.DersSecimi.Where(d => d.DanismanKimlikNo == SessionState.AssignedHesap.TCKimlikNo.ToString()).ToListAsync();
+                GetDanisman();
+                DersSecimleriList = await _context.DersSecimi.Where(d => d.DanismanKimlikNo == Danisman.TCKimlikNo.ToString()).ToListAsync();
                 DersList = await _context.Ders.ToListAsync();
             }
         }
 
-        private async Task InitializeOgrenciList()
+        private async Task GetDanisman()
         {
             if (_context is not null)
             {
-                foreach (var d in DersSecimi)
+                Danisman = await _context.Danisman.FirstOrDefaultAsync(d => d.TCKimlikNo.ToString() == SessionState.AssignedHesap.TCKimlikNo.ToString());
+            }
+        }
+        private async Task GetTanimliOgrenciler()
+        {
+            if (_context is not null)
+            {
+                foreach (var d in DersSecimleriList)
                 {
-                    OgrenciList = await _context.Ogrenci.Where(o => o.TCKimlikNo == d.OgrenciKimlikNo).ToListAsync();
+                    TanimliOgrencilerList = await _context.Ogrenci.Where(o => o.TCKimlikNo == d.OgrenciKimlikNo && o.OgrenciDanismani == SessionState.AssignedHesap.TCKimlikNo).ToListAsync();
                 }
             }
         }
@@ -49,7 +63,7 @@ namespace FinalTestProject.Components.Pages
         {
             var ogrenci = new Ogrenci();
             
-            foreach (var item in OgrenciList)
+            foreach (var item in TanimliOgrencilerList)
             {
                 if (dersSecimi.OgrenciKimlikNo == item.TCKimlikNo) 
                 {
@@ -61,7 +75,7 @@ namespace FinalTestProject.Components.Pages
             return ogrenci;
         }
 
-        private List<string> GetDersNames(List<string> dersID)
+        private List<string> GetDersler(List<string> dersID)
         {
             List<string> dersNameList = [];
 
@@ -79,29 +93,67 @@ namespace FinalTestProject.Components.Pages
             return dersNameList;
         }
 
-        private async Task OnClickDersOnay(DersSecimi dersSecimi)
+        private async Task Onayla(DersSecimi dersSecimi)
         {
-            var ogrenci = GetOgrenci(dersSecimi);
-            ogrenci.SecilmisDersler = dersSecimi.SecilenDersler;
+            var eklenecek_dnler = new List<DersNotu>();
+            SecilenOgr = GetOgrenci(dersSecimi);
+            SecilenOgr.SecilmisDersler = dersSecimi.SecilenDersler;
+
+            List<DersNotu> varolan_dnler = await _context.DersNotu.Where(dn => dn.OgrenciTc == SecilenOgr.TCKimlikNo).ToListAsync();
+
+            if (SecilenOgr.SecilmisDersler != null || SecilenOgr.SecilmisDersler.Count() > 0)
+            {
+                foreach (var ders_kodu in SecilenOgr.SecilmisDersler)
+                {
+                    eklenecek_dnler.Add(new DersNotu()
+                    {
+                        OgrenciTc = SecilenOgr.TCKimlikNo,
+                        DersKodu = ders_kodu.Trim(),
+                    });
+                }
+            }
+
             _context.DersSecimi.Remove(dersSecimi);
-            _context.Ogrenci.Update(ogrenci);
-            DersSecimi.Remove(dersSecimi);
+            _context.DersNotu.RemoveRange(varolan_dnler);
+            _context.DersNotu.AddRange(eklenecek_dnler);
+            //await AddSecilenDersler();
+            _context.Ogrenci.Update(SecilenOgr);
+            DersSecimleriList.Remove(dersSecimi);
 
             await _context.SaveChangesAsync();
 
-            errorMessage = $"{ogrenci.Ad} ogrencisinin {ogrenci.Yariyil}. yariyili icin ders kaydi basariyla guncellendi!";
+            errorMessage = $"{SecilenOgr.Ad} ogrencisinin {SecilenOgr.Yariyil}. yariyili icin ders kaydi basariyla guncellendi!";
 
         }
-        private async Task OnClickDersRet(DersSecimi dersSecimi)
+        private async Task Reddet(DersSecimi dersSecimi)
         {
             var ogrenci = GetOgrenci(dersSecimi);
-            DersSecimi.Remove(dersSecimi);
+            DersSecimleriList.Remove(dersSecimi);
             _context.DersSecimi.Remove(dersSecimi);
-            DersSecimi.Remove(dersSecimi);
+            DersSecimleriList.Remove(dersSecimi);
 
             await _context.SaveChangesAsync();
 
             errorMessage = $"{ogrenci.Ad} ogrencisinin {ogrenci.Yariyil}. yariyili icin olusturdugu ders kaydi reddedildi!";
+        }
+
+        private async Task AddSecilenDersler()
+        {
+            var eklenecek_dnler = new List<DersNotu>();
+
+            if (SecilenOgr.SecilmisDersler != null || SecilenOgr.SecilmisDersler.Count() > 0)
+            {
+                foreach (var ders_kodu in SecilenOgr.SecilmisDersler)
+                {
+                    eklenecek_dnler.Add(new DersNotu()
+                    {
+                        OgrenciTc = SecilenOgr.TCKimlikNo,
+                        DersKodu = ders_kodu.Trim(),
+                    });
+                }
+
+                _context.DersNotu.AddRange(eklenecek_dnler);
+            }
         }
     }
 }

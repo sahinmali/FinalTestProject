@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace FinalTestProject.Migrations
 {
     [DbContext(typeof(UbysSystemDbContext))]
-    partial class UbysSystemDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240605181734_AddSecilenDers")]
+    partial class AddSecilenDers
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "8.0.6");
@@ -270,9 +273,7 @@ namespace FinalTestProject.Migrations
                                 .HasColumnName("AraSinavNot");
 
                             b1.Property<float>("yuzde")
-                                .ValueGeneratedOnAdd()
                                 .HasColumnType("REAL")
-                                .HasDefaultValue(40f)
                                 .HasColumnName("AraSinavYuzde");
 
                             b1.HasKey("DersNotuId");
@@ -293,9 +294,7 @@ namespace FinalTestProject.Migrations
                                 .HasColumnName("FinalSinavNot");
 
                             b1.Property<float>("yuzde")
-                                .ValueGeneratedOnAdd()
                                 .HasColumnType("REAL")
-                                .HasDefaultValue(60f)
                                 .HasColumnName("FinalSinavYuzde");
 
                             b1.HasKey("DersNotuId");
