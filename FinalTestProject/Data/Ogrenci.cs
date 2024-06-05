@@ -12,6 +12,9 @@ namespace FinalTestProject.Data
         public int? Sinif { get; set; }
         public int? Donem { get; set; }
         public int Yariyil { get; set; }
+
+        [NotMapped]
+        public bool IsSelected { get; set; } // Checkbox seçimini takip etmek için
     }
 
 }

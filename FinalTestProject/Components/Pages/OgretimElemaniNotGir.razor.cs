@@ -63,7 +63,6 @@ namespace FinalTestProject.Components.Pages
         private void DersSecildi(ChangeEventArgs e)
         {
             var secilenDersKodu = e.Value?.ToString();
-            Console.WriteLine("Seçilen ders kodu: " + secilenDersKodu);
 
             if (string.IsNullOrEmpty(secilenDersKodu))
             {
@@ -73,10 +72,6 @@ namespace FinalTestProject.Components.Pages
             }
 
             SecilenDersinNotlari = DersNotlari.Where(d => d.DersKodu == secilenDersKodu).ToList();
-            foreach(var item in SecilenDersinNotlari)
-            {
-                Console.WriteLine($"Seçilen derse gore ders notlarinin idleri: {item.Id} ders kodlari:{item.DersKodu} ders adlari: {item.Ders.DersAdi}");
-            }
 
             if (SecilenDersinNotlari == null)
             {
