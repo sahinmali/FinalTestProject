@@ -29,11 +29,16 @@ namespace FinalTestProject.Components.Pages
 
         protected override async Task OnInitializedAsync()
         {
+            //if (!SessionState.IsAuthenticated)
+            //{
+            //    NavigationManager.NavigateTo("/", true);
+            //}
+
             _context ??= await UbysSystemDbContext.CreateDbContextAsync();
 
             await GetDersList();
-            DersSecimi = new DersSecimi(); // DersSecimi nesnesine bir deðer atama
-            DersSecimi.SecilenDersler = new List<string>(); // SecilenDersler özelliðine yeni bir liste atama
+            DersSecimi = new DersSecimi(); 
+            DersSecimi.SecilenDersler = new List<string>(); 
 
         }
 
@@ -66,7 +71,7 @@ namespace FinalTestProject.Components.Pages
             if (GetToplamAKTS() + ders.AKTS > ValidValues.AKTSLimit)
             {
                 IsAKTSExceeded = true;
-                //bir hata mesaji verilebilir burada
+                errorMessage = "Mevcut AKTS'den (45) fazla AKTS'ye sahip ders secimi yapamazsiniz!";
                 return;
             }
             else

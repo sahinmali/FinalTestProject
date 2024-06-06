@@ -15,5 +15,8 @@ namespace FinalTestProject.Models
 
         public List<Ders> DersList = [];
 
+        [NotMapped]
+        public bool Onay { get; set; }
+
     }
 }

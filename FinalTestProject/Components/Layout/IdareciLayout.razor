@@ -3,6 +3,7 @@
 @using FinalTestProject.Components.Pages
 
 @inject FinalTestProject.Services.SessionState SessionState
+@inject NavigationManager NavigationManager
 
 @if (SessionState.IsAuthenticated)
 {
@@ -54,6 +55,16 @@
 else
 {
     <Login />
+}
+
+@code {
+    protected override async Task OnInitializedAsync()
+    {
+        if (!SessionState.IsAuthenticated)
+        {
+            NavigationManager.NavigateTo("/", true);
+        }
+    }
 }
 
 

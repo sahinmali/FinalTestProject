@@ -4,6 +4,7 @@
 @using Microsoft.EntityFrameworkCore
 
 @inject IDbContextFactory<UbysSystemDbContext> UbysSystemDbContext;
+@inject NavigationManager NavigationManager
 
 @if (SessionState.IsAuthenticated)
 {
@@ -34,7 +35,8 @@
         </nav>
         <!-- Common header or navigation -->
         <header>
-            <h1>Ders Secimi here!</h1>
+            <h1>Ders Secimini buradan yapabilirsin, @Ogrenci.Ad.</h1>
+            <h2>Guncel Donem: @Ogrenci.Donem Yariyil: @Ogrenci.Yariyil</h2>
 
             @if (!string.IsNullOrEmpty(errorMessage))
             {

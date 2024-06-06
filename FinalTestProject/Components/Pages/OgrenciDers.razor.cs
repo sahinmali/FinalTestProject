@@ -21,6 +21,11 @@ namespace FinalTestProject.Components.Pages
 
         protected override async Task OnInitializedAsync()
         {
+            if (!SessionState.IsAuthenticated)
+            {
+                NavigationManager.NavigateTo("/",true);
+            }
+
             ShowCreate = false;
             await GetOgrenci();
         }
@@ -61,6 +66,7 @@ namespace FinalTestProject.Components.Pages
             {
                 TanimliDersNotlari = await DbContext.DersNotu
                                 .Include(dn => dn.Ders) // Ders bilgilerini dahil et
+                                .ThenInclude(d => d.OgretimElemani)
                                 .Where(o => o.OgrenciTc.ToString() == Ogrenci.TCKimlikNo.ToString())
                                 .ToListAsync();
             }

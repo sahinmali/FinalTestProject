@@ -25,6 +25,11 @@ namespace FinalTestProject.Components.Pages
 
         protected override async Task OnInitializedAsync()
         {
+            if (!SessionState.IsAuthenticated)
+            {
+                NavigationManager.NavigateTo("/", true);
+            }
+
             ShowCreate = false;
             await GetOgretimElemani();
         }

@@ -16,7 +16,7 @@ namespace FinalTestProject.Services
         public async Task Logout()
         {
             _sessionState.ClearSession();
-            _navigationManager.NavigateTo("/");
+            _navigationManager.NavigateTo("/", true);
         }
     }
 }

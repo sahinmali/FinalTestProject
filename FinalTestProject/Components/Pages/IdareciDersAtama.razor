@@ -5,6 +5,7 @@
 @using Microsoft.EntityFrameworkCore
 
 @inject SessionState SessionState
+@inject NavigationManager NavigationManager
 
 @if (SessionState.IsAuthenticated)
 {
@@ -104,6 +105,7 @@
                                     <th scope="col">Ders Adi</th>
                                     <th scope="col">Ders Kodu</th>
                                     <th scope="col">Haftalik Ders Saati</th>
+                                    <th scope="col">Ders Donemi</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -114,7 +116,8 @@
                                         <tr>
                                             <td>@ders.DersAdi</td>
                                             <td>@ders.DersKodu</td>
-                                            <td>@ders.SaatCount</td>                                           
+                                            <td>@ders.SaatCount</td>
+                                            <td>@ders.Yariyil. yariyil</td>
                                         </tr>
                                     }
                                 }

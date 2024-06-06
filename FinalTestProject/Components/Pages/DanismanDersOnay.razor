@@ -4,6 +4,7 @@
 @using Microsoft.EntityFrameworkCore
 
 @inject IDbContextFactory<UbysSystemDbContext> UbysSystemDbContext;
+@inject NavigationManager NavigationManager
 
 @if (SessionState.IsAuthenticated)
 {
@@ -43,7 +44,7 @@
                 </div>
             }
 
-            @if (DersSecimleriList.Count > 0)
+            @if (DersSecimleriList != null && DersSecimleriList.Count > 0)
             {
                 @foreach (var ders in DersSecimleriList)
                 {
@@ -78,6 +79,10 @@
                     </div>
                 }
 
+            }
+            else
+            {
+                <p>Henuz gonderilmis bir ders secimi bulunmuyor!.</p>
             }
         </header>
 

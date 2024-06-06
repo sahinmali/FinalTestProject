@@ -15,18 +15,26 @@ namespace FinalTestProject.Components.Pages
 
         private Ogrenci? SecilenOgr { get; set; }
 
-        private List<DersSecimi> DersSecimleriList { get; set; }
+        private List<DersSecimi>? DersSecimleriList { get; set; } = new List<DersSecimi>();
 
-        private List<Ogrenci> TanimliOgrencilerList { get; set; }
-        private List<Ders> DersList { get; set; }
+        private List<Ogrenci>? TanimliOgrencilerList { get; set; } = new List<Ogrenci>();
+        private List<Ders>? DersList { get; set; } = new List<Ders>();
 
-        private List<Ders> SecilenDersList { get; set; } //
+        private List<Ders>? SecilenDersList { get; set; } = new List<Ders>();
 
         private string errorMessage = "";
 
         protected override async Task OnInitializedAsync()
         {
-            _context ??= await UbysSystemDbContext.CreateDbContextAsync();
+            if (!SessionState.IsAuthenticated)
+            {
+                NavigationManager.NavigateTo("/", true);
+            }
+
+            if (_context is null)
+            {
+                _context = await UbysSystemDbContext.CreateDbContextAsync();
+            }
 
             await GetDersSecimleri();
             await GetTanimliOgrenciler();
@@ -36,7 +44,7 @@ namespace FinalTestProject.Components.Pages
         {
             if (_context is not null)
             {
-                GetDanisman();
+                await GetDanisman();
                 DersSecimleriList = await _context.DersSecimi.Where(d => d.DanismanKimlikNo == Danisman.TCKimlikNo.ToString()).ToListAsync();
                 DersList = await _context.Ders.ToListAsync();
             }
@@ -51,7 +59,7 @@ namespace FinalTestProject.Components.Pages
         }
         private async Task GetTanimliOgrenciler()
         {
-            if (_context is not null)
+            if (_context is not null && DersSecimleriList is not null) //
             {
                 foreach (var d in DersSecimleriList)
                 {
@@ -63,12 +71,15 @@ namespace FinalTestProject.Components.Pages
         {
             var ogrenci = new Ogrenci();
             
-            foreach (var item in TanimliOgrencilerList)
+            if(TanimliOgrencilerList is not null && TanimliOgrencilerList.Count() > 0) //
             {
-                if (dersSecimi.OgrenciKimlikNo == item.TCKimlikNo) 
+                foreach (var item in TanimliOgrencilerList)
                 {
-                    ogrenci = item;
-                    break;
+                    if (dersSecimi.OgrenciKimlikNo == item.TCKimlikNo)
+                    {
+                        ogrenci = item;
+                        break;
+                    }
                 }
             }
 
@@ -79,14 +90,17 @@ namespace FinalTestProject.Components.Pages
         {
             List<string> dersNameList = [];
 
-            foreach (var item in DersList)
+            if (DersList is not null) //
             {
-                for (var i = 0; i < dersID.Count; i++)
+                foreach (var item in DersList)
                 {
-                    if (item.DersKodu == dersID[i])
+                    for (var i = 0; i < dersID.Count; i++)
                     {
-                        dersNameList.Add(item.DersAdi);
-                        break;
+                        if (item.DersKodu == dersID[i])
+                        {
+                            dersNameList.Add(item.DersAdi);
+                            break;
+                        }
                     }
                 }
             }
@@ -152,7 +166,7 @@ namespace FinalTestProject.Components.Pages
                     });
                 }
 
-                _context.DersNotu.AddRange(eklenecek_dnler);
+                 await _context.DersNotu.AddRangeAsync(eklenecek_dnler);
             }
         }
     }
