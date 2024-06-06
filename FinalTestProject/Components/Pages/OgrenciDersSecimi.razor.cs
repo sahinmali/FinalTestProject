@@ -29,10 +29,10 @@ namespace FinalTestProject.Components.Pages
 
         protected override async Task OnInitializedAsync()
         {
-            //if (!SessionState.IsAuthenticated)
-            //{
-            //    NavigationManager.NavigateTo("/", true);
-            //}
+            if (!SessionState.IsAuthenticated)
+            {
+                NavigationManager.NavigateTo("/", true);
+            }
 
             _context ??= await UbysSystemDbContext.CreateDbContextAsync();
 
@@ -47,7 +47,7 @@ namespace FinalTestProject.Components.Pages
             if (_context is not null)
             {
                 await GetOgrenci();
-                //await OgrControl();
+                await OgrControl(); //ogrenci bilgilerinin kontrolu - alttan ders var mý vs.
                 DersList = await _context.Ders.Where(d => d.Yariyil == Ogrenci.Yariyil && d.OgretimElemaniTc != null).ToListAsync();
             }
         }
@@ -117,6 +117,13 @@ namespace FinalTestProject.Components.Pages
             {
                 foreach (var d in DersSecimi.SecilenDersler)
                 {
+                    bool contains = AlttanDersList.Any(ders => ders.DersKodu == d.Trim());
+                    if (contains)
+                    {
+                        var cikarilacak = AlttanDersList.FirstOrDefault(ders => ders.DersKodu == d.Trim());
+                        AlttanDersList.Remove(cikarilacak);
+                    }
+
                     var secilen_ders = new SecilenDers()
                     {
                         TcKimlikNo = DersSecimi.OgrenciKimlikNo,
@@ -149,15 +156,18 @@ namespace FinalTestProject.Components.Pages
             var ders_notlari = await _context.DersNotu.Where(dn=>dn.OgrenciTc == Ogrenci.TCKimlikNo && dn.Ders.Yariyil == Ogrenci.Yariyil).ToListAsync();
             var alttan_ders_notlari = new List<DersNotu>();
 
-            foreach (var d_not in ders_notlari)
+            if (gnoHesapla(tum_dn) < 1.80)
             {
-                if(gnoHesapla(tum_dn) <= 1.80) 
-                { 
-                    alttan_ders_notlari.AddRange(tum_dn); 
-                }
-                else if(gnoHesapla(tum_dn) > 1.80 && (d_not.YoklamaDurumu == 0 || d_not.SonucNotu<50))
+                alttan_ders_notlari.AddRange(tum_dn);
+            }
+            else 
+            {
+                foreach (var d_not in ders_notlari)
                 {
-                    alttan_ders_notlari.Add(d_not);
+                    if (gnoHesapla(tum_dn) >= 1.80 && (d_not.YoklamaDurumu == 0 || d_not.SonucNotu < 50))
+                    {
+                        alttan_ders_notlari.Add(d_not);
+                    }
                 }
             }
 
@@ -171,7 +181,7 @@ namespace FinalTestProject.Components.Pages
                         errorMessage = "Secim yaparsaniz su dersler seciminize eklenecek";
                         foreach (var ad in AlttanDersList)
                         {
-                            errorMessage += $"Ders Kodu: {ad.DersKodu} {ad.DersAdi} AKTS: {ad.AKTS}///";
+                            errorMessage += $"Ders Kodu: {ad.DersKodu} {ad.DersAdi} AKTS: {ad.AKTS}  ";
                             SecilenDersList.Add(new SecilenDers()
                             {
                                 TcKimlikNo = Ogrenci.TCKimlikNo,

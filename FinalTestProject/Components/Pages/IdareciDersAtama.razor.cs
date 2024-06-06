@@ -136,14 +136,14 @@ namespace FinalTestProject.Components.Pages
         }
 
         
-        public void VizeNotGir(float not, DersNotu ders_not)
-        {
-            ders_not.setAraSinav(not);
-        }
+        //public void VizeNotGir(float not, DersNotu ders_not)
+        //{
+        //    ders_not.setAraSinav(not);
+        //}
 
-        public void FinalNotGir(float not, DersNotu ders_not)
-        {
-            ders_not.setFinal(not);
-        }
+        //public void FinalNotGir(float not, DersNotu ders_not)
+        //{
+        //    ders_not.setFinal(not);
+        //}
     }
 }
