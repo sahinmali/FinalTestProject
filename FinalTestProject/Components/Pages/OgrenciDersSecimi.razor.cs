@@ -48,7 +48,7 @@ namespace FinalTestProject.Components.Pages
             {
                 await GetOgrenci();
                 await OgrControl(); //ogrenci bilgilerinin kontrolu - alttan ders var mý vs.
-                DersList = await _context.Ders.Where(d => d.Yariyil == Ogrenci.Yariyil && d.OgretimElemaniTc != null).ToListAsync();
+                DersList = await _context.Ders.Include(d=>d.OgretimElemani).Where(d => d.Yariyil == Ogrenci.Yariyil && d.OgretimElemaniTc != null).ToListAsync();
             }
         }
 

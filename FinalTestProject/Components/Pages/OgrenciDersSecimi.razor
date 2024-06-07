@@ -37,6 +37,7 @@
         <header>
             <h1>Ders Secimini buradan yapabilirsin, @Ogrenci.Ad.</h1>
             <h2>Guncel Donem: @Ogrenci.Donem Yariyil: @Ogrenci.Yariyil</h2>
+            <h2>Danisman Adi: @Ogrenci.OgrDanisman.Ad</h2>
 
             @if (!string.IsNullOrEmpty(errorMessage))
             {
@@ -53,6 +54,7 @@
                             <tr>
                                 <th scope="col">Ders Kodu</th>
                                 <th scope="col">Ders Adi</th>
+                                <th scope="col">Dersi Veren</th>
                                 <th scope="col">AKTS</th>
                                 <th scope="col">Ders Saati</th>
                                 <th scope="col">Dersin Yariyili</th>
@@ -65,6 +67,7 @@
                                 <tr>
                                     <td>@ders.DersKodu</td>
                                     <td>@ders.DersAdi</td>
+                                    <td>@ders.OgretimElemani.Ad</td>
                                     <td>@ders.AKTS</td>
                                     <td>@ders.SaatCount</td>
                                     <td>@ders.Yariyil</td>
